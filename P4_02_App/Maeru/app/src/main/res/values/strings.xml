@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Maéru</string>
+    <string name="date_filter">Date filter</string>
+    <string name="location_filter">Location filter</string>
+    <string name="meeting">Meeting</string>
+</resources>
