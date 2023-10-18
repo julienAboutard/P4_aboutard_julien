@@ -19,14 +19,14 @@ public class Meeting {
     private final String topic;
 
     @NonNull
-    private final List<String> mail_list;
+    private final String mail_list;
 
     public Meeting(
         long id,
         @NonNull String room,
         @NonNull String time,
         @NonNull String topic,
-        @NonNull List<String> mail_list
+        @NonNull String mail_list
     ) {
         this.id = id;
         this.room = room;
@@ -47,7 +47,16 @@ public class Meeting {
     public String getTopic() {return topic;}
 
     @NonNull
-    public List<String> getMail_list() {return mail_list;}
+    public String getMail_list() {return mail_list;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meeting meeting = (Meeting) o;
+        return id == meeting.id && room == meeting.room && time == meeting.time
+                && topic == meeting.topic && mail_list == meeting.mail_list ;
+    }
 
     @Override
     public int hashCode() {

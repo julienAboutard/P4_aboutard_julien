@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MaRéu</string>
+
+
+    <string name="delete_meeting">Delete meeting</string>
 </resources>

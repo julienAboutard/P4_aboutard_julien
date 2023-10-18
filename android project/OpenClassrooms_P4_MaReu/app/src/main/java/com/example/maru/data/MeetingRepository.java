@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,17 +17,19 @@ public class MeetingRepository {
 
     private long maxId = 0;
 
-
+    public MeetingRepository() {
+        generateRandomMeetings();
+    }
 
     public void addMeeting(
             @NonNull String room,
             @NonNull String time,
-            @Nullable String topic,
-            @Nullable List<String> mail_list
+            @NonNull String topic,
+            @NonNull String mail_list
     ) {
         List<Meeting> meetings = meetingLiveData.getValue();
 
-        if (meetings == null) return;
+        if (meetings == null) meetings = new ArrayList<Meeting>();
 
         meetings.add(
                 new Meeting(
@@ -60,6 +64,27 @@ public class MeetingRepository {
 
     public LiveData<List<Meeting>> getMeetingsLiveData() {
         return meetingLiveData;
+    }
+
+    private void generateRandomMeetings() {
+        addMeeting(
+                "802",
+                "8:00",
+                "Asura",
+                "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr"
+        );
+        addMeeting(
+                "389",
+                "16:00",
+                "Aphrodite",
+                "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr"
+        );
+        addMeeting(
+                "103",
+                "14:00",
+                "Astarté",
+                "brahma@test.fr, thot@test.fr, ra@test.fr"
+        );
     }
 
 }
