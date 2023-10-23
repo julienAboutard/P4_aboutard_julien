@@ -9,11 +9,17 @@ public class MeetingsViewModel extends ViewModel {
     @NonNull
     private final MeetingRepository meetingRepository;
 
+
     public MeetingsViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
+        meetingRepository.generateRandomMeetings();
     }
 
     public void onDeleteMeetingClicked(long neighbourId) {
         meetingRepository.deleteNeighbour(neighbourId);
+    }
+
+    public void onAddMeetingClicked() {
+        meetingRepository.generateRandomMeetings();
     }
 }

@@ -7,40 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-
-        android:layout_height="192dp"
-        android:layout_width="match_parent">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:toolbarId="@+id/toolbar"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-
-            app:contentScrim="?attr/colorPrimary">
-
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"></androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/meeting_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/meeting_rv"
+        app:layout_anchorGravity="bottom|center"
+        tools:listitem="@layout/meeting_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbtn"
@@ -48,6 +21,8 @@
         android:layout_width="wrap_content"
         android:src="@android:drawable/ic_input_add"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp" />"
+        android:layout_margin="16dp" />
+
+    "
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

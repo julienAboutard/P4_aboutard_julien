@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import org.json.JSONObject;
 
@@ -15,11 +16,8 @@ public class MeetingRepository {
 
     private final MutableLiveData<List<Meeting>> meetingLiveData = new MutableLiveData<>(new ArrayList<>());
 
-    private long maxId = 0;
 
-    public MeetingRepository() {
-        generateRandomMeetings();
-    }
+    private long maxId = 0;
 
     public void addMeeting(
             @NonNull String room,
@@ -66,7 +64,23 @@ public class MeetingRepository {
         return meetingLiveData;
     }
 
-    private void generateRandomMeetings() {
+    public LiveData<Meeting> getNeighbourLiveData(long meetingId) {
+        // We use a Transformation here so whenever the neighboursLiveData changes, the underlying lambda will be called too, and
+        // the Neighbour will be re-emitted (with potentially new information like isFavorite set to true or false)
+
+        // This Transformation transforms a List of Neighbours into a Neighbour (matched by its ID)
+        return Transformations.map(meetingLiveData, meetings -> {
+            for (Meeting meeting : meetings) {
+                if (meeting.getId() == meetingId) {
+                    return meeting;
+                }
+            }
+
+            return null;
+        });
+    }
+
+    public void generateRandomMeetings() {
         addMeeting(
                 "802",
                 "8:00",
