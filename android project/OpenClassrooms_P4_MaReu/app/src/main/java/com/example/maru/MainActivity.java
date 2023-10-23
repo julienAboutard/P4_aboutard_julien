@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.onDeleteMeetingClicked(neighbourId);
             }
         });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
     }
