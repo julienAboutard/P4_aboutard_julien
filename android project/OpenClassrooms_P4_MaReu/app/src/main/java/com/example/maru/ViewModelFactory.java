@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.maru.data.MeetingRepository;
+import com.example.maru.meetingadd.AddMeetingActivity;
+import com.example.maru.meetingadd.AddMeetingViewModel;
 import com.example.maru.meetinglist.MeetingsViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
@@ -43,11 +45,12 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
                     meetingRepository
             );
         }
-        /*else if (modelClass.isAssignableFrom(AddNeighbourViewModel.class)) {
-            return (T) new AddNeighbourViewModel(
+        else if (modelClass.isAssignableFrom(AddMeetingViewModel.class)) {
+            return (T) new AddMeetingViewModel(
                     meetingRepository
             );
-        } else if (modelClass.isAssignableFrom(NeighbourDetailViewModel.class)) {
+        }
+        /*else if (modelClass.isAssignableFrom(NeighbourDetailViewModel.class)) {
             return (T) new NeighbourDetailViewModel(
                     MainApplication.getInstance(),
                     meetingRepository

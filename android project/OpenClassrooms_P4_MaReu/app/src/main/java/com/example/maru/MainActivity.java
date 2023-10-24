@@ -15,14 +15,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.maru.data.Meeting;
 import com.example.maru.data.MeetingRepository;
+import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetinglist.MeetingsAdapter;
 import com.example.maru.meetinglist.MeetingsViewModel;
+import com.example.maru.meetinglist.MeetingsViewStateItem;
 import com.example.maru.meetinglist.OnMeetingClickedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,32 +46,26 @@ public class MainActivity extends AppCompatActivity {
         MeetingRepository meetingRepository = new MeetingRepository();
         meetingRepository.generateRandomMeetings();
 
-        final MeetingsAdapter adapter = new MeetingsAdapter();
+        //final MeetingsAdapter adapter = new MeetingsAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
-        /*MeetingsAdapter adapter = new MeetingsAdapter(new OnMeetingClickedListener() {
+        fab.setOnClickListener(v -> startActivities(new Intent[]{AddMeetingActivity.navigate(this)}));
+        MeetingsAdapter adapter = new MeetingsAdapter(new OnMeetingClickedListener() {
 
             @Override
             public void onMeetingClicked(long neighbourId) {
 
             }
-
-            @Override
-            public void onMeetingAddClicked() {
-                viewModel.onAddMeetingClicked();
-            }
-
             @Override
             public void onDeleteMeetingClicked(long neighbourId) {
                 viewModel.onDeleteMeetingClicked(neighbourId);
             }
-        });*/
+        });
 
-
-        viewModel.getMeetingLiveData().observe(this, new Observer<List<Meeting>>() {
+        recyclerView.setAdapter(adapter);
+        viewModel.getMeetingLiveData().observe(this, new Observer<List<MeetingsViewStateItem>>() {
             @Override
-            public void onChanged(List<Meeting> meetings) {
+            public void onChanged(List<MeetingsViewStateItem> meetings) {
                 adapter.setMeetings(meetings);
                 Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
             }

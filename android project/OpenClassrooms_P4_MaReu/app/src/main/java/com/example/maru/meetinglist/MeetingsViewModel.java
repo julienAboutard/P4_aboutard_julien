@@ -25,13 +25,9 @@ public class MeetingsViewModel extends ViewModel {
         meetingRepository.deleteNeighbour(neighbourId);
     }
 
-    public void onAddMeetingClicked() {
-        meetingRepository.generateRandomMeetings();
-    }
-
-    public LiveData<List<Meeting>> getMeetingLiveData() {
+    public LiveData<List<MeetingsViewStateItem>> getMeetingLiveData() {
         return Transformations.map(meetingRepository.getMeetingsLiveData(), meetings -> {
-            List<Meeting> Meetings = new ArrayList<>();
+            List<MeetingsViewStateItem> Meetings = new ArrayList<>();
             return Meetings;
         });
     }

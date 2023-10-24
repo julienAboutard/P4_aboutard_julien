@@ -19,16 +19,16 @@ import com.example.maru.databinding.MeetingItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.ViewHolder> {
+public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem,MeetingsAdapter.ViewHolder> {
 
-    List<Meeting> meetings = new ArrayList<>();
-    /*private final OnMeetingClickedListener listener;
+    List<MeetingsViewStateItem> meetings = new ArrayList<>();
+    private final OnMeetingClickedListener listener;
 
     public MeetingsAdapter(OnMeetingClickedListener listener) {
         super(new ListMeetingItemCallback());
 
         this.listener = listener;
-    }*/
+    }
 
     @NonNull
     @Override
@@ -40,11 +40,11 @@ public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Meeting item = meetings.get(position);
+        MeetingsViewStateItem item = meetings.get(position);
         holder.topicTextView.setText(item.getTopic());
         holder.roomTextView.setText(item.getRoom());
         holder.timeTextView.setText(item.getTime());
-        holder.mailTextView.setText(item.getMail_list());
+        //holder.mailTextView.setText(item.getMail_list());
         //holder.deleteImageView.setOnClickListener(v -> holder.onDeleteMeetingClicked(item.getId()));
     }
 
@@ -75,29 +75,29 @@ public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.ViewHo
             deleteImageView = itemView.findViewById(R.id.delete_icon);
         }
 
-        public void bind(Meeting item, OnMeetingClickedListener listener) {
+        public void bind(MeetingsViewStateItem item, OnMeetingClickedListener listener) {
 //            itemView.setOnClickListener(v -> listener.onMeetingClicked(item.getId()));
             topicTextView.setText(item.getTopic());
             roomTextView.setText(item.getRoom());
             timeTextView.setText(item.getTime());
-            mailTextView.setText(item.getMail_list());
+            //mailTextView.setText(item.getMail_list());
             deleteImageView.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));
         }
     }
 
-    public void setMeetings(List<Meeting> meetings) {
+    public void setMeetings(List<MeetingsViewStateItem> meetings) {
         this.meetings = meetings;
         notifyDataSetChanged();
     }
 
-    private static class ListMeetingItemCallback extends DiffUtil.ItemCallback<Meeting> {
+    private static class ListMeetingItemCallback extends DiffUtil.ItemCallback<MeetingsViewStateItem> {
         @Override
-        public boolean areItemsTheSame(@NonNull Meeting oldItem, @NonNull Meeting newItem) {
+        public boolean areItemsTheSame(@NonNull MeetingsViewStateItem oldItem, @NonNull MeetingsViewStateItem newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Meeting oldItem, @NonNull Meeting newItem) {
+        public boolean areContentsTheSame(@NonNull MeetingsViewStateItem oldItem, @NonNull MeetingsViewStateItem newItem) {
             return oldItem.equals(newItem);
         }
     }
