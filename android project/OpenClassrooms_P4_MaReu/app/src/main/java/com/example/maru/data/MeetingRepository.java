@@ -27,30 +27,34 @@ public class MeetingRepository {
     ) {
         List<Meeting> meetings = meetingLiveData.getValue();
 
-        if (meetings == null) meetings = new ArrayList<Meeting>();
+        if (meetings == null) {
+            meetings = new ArrayList<Meeting>();
+        }
 
         meetings.add(
                 new Meeting(
-                        maxId++,
+                        maxId,
                         room,
                         time,
                         topic,
                         mail_list
                 )
         );
-
+        maxId++;
         meetingLiveData.setValue(meetings);
     }
 
-    public void deleteNeighbour(long neighbourId) {
+    public void deleteNeighbour(long meetingId) {
         List<Meeting> meetings = meetingLiveData.getValue();
 
-        if (meetings == null) return;
+        if (meetings == null) {
+            meetings = new ArrayList<>();
+        }
 
         for (Iterator<Meeting> iterator = meetings.iterator(); iterator.hasNext(); ) {
             Meeting meeting = iterator.next();
 
-            if (meeting.getId() == neighbourId) {
+            if (meeting.getId() == meetingId) {
                 iterator.remove();
                 break;
             }
@@ -59,12 +63,11 @@ public class MeetingRepository {
         meetingLiveData.setValue(meetings);
     }
 
-
     public LiveData<List<Meeting>> getMeetingsLiveData() {
         return meetingLiveData;
     }
 
-    public LiveData<Meeting> getNeighbourLiveData(long meetingId) {
+    public LiveData<Meeting> getMeetingLiveData(long meetingId) {
         // We use a Transformation here so whenever the neighboursLiveData changes, the underlying lambda will be called too, and
         // the Neighbour will be re-emitted (with potentially new information like isFavorite set to true or false)
 
@@ -79,7 +82,6 @@ public class MeetingRepository {
             return null;
         });
     }
-
     public void generateRandomMeetings() {
         addMeeting(
                 "802",
