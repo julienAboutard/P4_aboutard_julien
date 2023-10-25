@@ -23,8 +23,8 @@ public class MeetingDetailViewModel extends ViewModel {
         return Transformations.map(
                 meetingRepository.getMeetingLiveData(meetingId),
                 meeting -> new MeetingDetailViewStateItem(
-                        meeting.getTopic(),
                         meeting.getRoom(),
+                        meeting.getTopic(),
                         meeting.getTime(),
                         meeting.getMail_list()
                 )

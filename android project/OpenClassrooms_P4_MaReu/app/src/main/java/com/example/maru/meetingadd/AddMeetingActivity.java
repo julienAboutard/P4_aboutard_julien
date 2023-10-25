@@ -3,8 +3,14 @@ package com.example.maru.meetingadd;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.chooser.ChooserAction;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +18,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.maru.R;
 import com.example.maru.ViewModelFactory;
+import com.example.maru.data.Room;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
@@ -27,16 +37,40 @@ public class AddMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.addmeeting_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        final Room[] room_selected = {Room.Roy};
         AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
 
-        TextInputEditText roomEditText = findViewById(R.id.meeting_room_add_tiet);
+        Spinner mySpinner = (Spinner) findViewById(R.id.spinner_room_name);
+        mySpinner.setAdapter(new ArrayAdapter<Room>(this, android.R.layout.simple_spinner_item, Room.values()));
+
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Room room = (Room) parent
+                        .getItemAtPosition(position);
+
+                    room_selected[0] = room;
+
+                Toast.makeText(AddMeetingActivity.this,
+                        room.getName(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         TextInputEditText timeEditText = findViewById(R.id.meeting_time_add_tiet);
         TextInputEditText topicEditText = findViewById(R.id.meeting_topic_add_tiet);
         TextInputEditText mailEditText = findViewById(R.id.meeting_mail_add_tiet);
         Button addMeetingButton = findViewById(R.id.meeting_button_add);
 
-        bindAddButton(viewModel, roomEditText, timeEditText, topicEditText, mailEditText, addMeetingButton);
+
+        bindAddButton(viewModel, room_selected[0], timeEditText, topicEditText, mailEditText, addMeetingButton);
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
+
+
 
     }
 
@@ -49,14 +83,15 @@ public class AddMeetingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindAddButton(AddMeetingViewModel viewModel, TextInputEditText roomEditText, TextInputEditText timeEditText, TextInputEditText topicEditText, TextInputEditText mailEditText, Button addMeetingButton) {
+    private void bindAddButton(AddMeetingViewModel viewModel, Room room,
+                               TextInputEditText timeEditText, TextInputEditText topicEditText,
+                               TextInputEditText mailEditText, Button addMeetingButton) {
         //noinspection ConstantConditions
         addMeetingButton.setOnClickListener(v -> viewModel.onAddButtonClicked(
-                roomEditText.getText().toString(),
-                topicEditText.getText().toString(),
+                room,
                 timeEditText.getText().toString(),
+                topicEditText.getText().toString(),
                 mailEditText.getText().toString()
         ));
-        //viewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled -> addMeetingButton.setEnabled(isSaveButtonEnabled));
     }
 }

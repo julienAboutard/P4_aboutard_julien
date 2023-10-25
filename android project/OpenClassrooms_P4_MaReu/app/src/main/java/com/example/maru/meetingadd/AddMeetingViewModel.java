@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.maru.data.MeetingRepository;
+import com.example.maru.data.Room;
 import com.example.maru.util.SingleLiveEvent;
 
 public class AddMeetingViewModel extends ViewModel {
@@ -30,7 +31,7 @@ public class AddMeetingViewModel extends ViewModel {
     }
 
     public void onAddButtonClicked(
-            @NonNull String room,
+            @NonNull Room room,
             @Nullable String time,
             @Nullable String topic,
             @Nullable String mail_list

@@ -2,11 +2,13 @@ package com.example.maru.meetingdetail;
 
 import androidx.annotation.NonNull;
 
+import com.example.maru.data.Room;
+
 import java.util.Objects;
 
 public class MeetingDetailViewStateItem {
     @NonNull
-    private final String room;
+    private final Room room;
     @NonNull
     private final String time;
     @NonNull
@@ -15,7 +17,7 @@ public class MeetingDetailViewStateItem {
     private final String mail_list;
 
     @NonNull
-    public String getRoom() {
+    public Room getRoom() {
         return room;
     }
 
@@ -35,7 +37,7 @@ public class MeetingDetailViewStateItem {
     }
 
     public MeetingDetailViewStateItem(
-            @NonNull String room,
+            @NonNull Room room,
             @NonNull String time,
             @NonNull String topic,
             @NonNull String mail_list

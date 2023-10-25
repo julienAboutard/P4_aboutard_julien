@@ -13,7 +13,7 @@ public class Meeting {
     private final String time;
 
     @NonNull
-    private final String room;
+    private final Room room;
 
     @NonNull
     private final String topic;
@@ -23,7 +23,7 @@ public class Meeting {
 
     public Meeting(
         long id,
-        @NonNull String room,
+        @NonNull Room room,
         @NonNull String time,
         @NonNull String topic,
         @NonNull String mail_list
@@ -41,7 +41,7 @@ public class Meeting {
     public String getTime() {return time;}
 
     @NonNull
-    public String getRoom() {return room;}
+    public Room getRoom() {return room;}
 
     @NonNull
     public String getTopic() {return topic;}

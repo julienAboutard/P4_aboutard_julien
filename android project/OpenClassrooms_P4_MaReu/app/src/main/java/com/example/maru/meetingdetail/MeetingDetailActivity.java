@@ -46,7 +46,7 @@ public class MeetingDetailActivity extends AppCompatActivity {
         MeetingDetailViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MeetingDetailViewModel.class);
         viewModel.getMeetingDetailViewStateLiveData(meetingId).observe(this, meetingDetailViewStateItem -> {
             topicTextView.setText(meetingDetailViewStateItem.getTopic());
-            roomTextView.setText(meetingDetailViewStateItem.getRoom());
+            roomTextView.setText(meetingDetailViewStateItem.getRoom().getName());
             timeTextView.setText(meetingDetailViewStateItem.getTime());
             mailTextView.setText(meetingDetailViewStateItem.getMail_list());
         });

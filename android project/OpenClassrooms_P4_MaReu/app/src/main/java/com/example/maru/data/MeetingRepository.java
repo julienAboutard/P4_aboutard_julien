@@ -1,5 +1,9 @@
 package com.example.maru.data;
 
+import static com.example.maru.data.Room.Lucina;
+import static com.example.maru.data.Room.Robin;
+import static com.example.maru.data.Room.Roy;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -20,7 +24,7 @@ public class MeetingRepository {
     private long maxId = 0;
 
     public void addMeeting(
-            @NonNull String room,
+            @NonNull Room room,
             @NonNull String time,
             @NonNull String topic,
             @NonNull String mail_list
@@ -68,10 +72,7 @@ public class MeetingRepository {
     }
 
     public LiveData<Meeting> getMeetingLiveData(long meetingId) {
-        // We use a Transformation here so whenever the neighboursLiveData changes, the underlying lambda will be called too, and
-        // the Neighbour will be re-emitted (with potentially new information like isFavorite set to true or false)
 
-        // This Transformation transforms a List of Neighbours into a Neighbour (matched by its ID)
         return Transformations.map(meetingLiveData, meetings -> {
             for (Meeting meeting : meetings) {
                 if (meeting.getId() == meetingId) {
@@ -84,22 +85,28 @@ public class MeetingRepository {
     }
     public void generateRandomMeetings() {
         addMeeting(
-                "802",
+                Roy,
                 "8:00",
                 "Asura",
                 "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr"
         );
         addMeeting(
-                "389",
+                Lucina,
                 "16:00",
                 "Aphrodite",
                 "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr"
         );
         addMeeting(
-                "103",
+                Robin,
                 "14:00",
                 "Astarté",
                 "brahma@test.fr, thot@test.fr, ra@test.fr"
+        );
+        addMeeting(
+                Roy,
+                "10:00",
+                "Enfer",
+                "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr"
         );
     }
 

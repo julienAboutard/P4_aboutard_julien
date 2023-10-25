@@ -2,6 +2,8 @@ package com.example.maru.meetinglist;
 
 import androidx.annotation.NonNull;
 
+import com.example.maru.data.Room;
+
 import java.util.Objects;
 
 public class MeetingsViewStateItem {
@@ -10,17 +12,21 @@ public class MeetingsViewStateItem {
     @NonNull
     private final String topic;
     @NonNull
-    private final String room;
+    private final Room room;
 
     @NonNull
     private final String time;
 
+    @NonNull
+    private  final String mail_list;
 
-    public MeetingsViewStateItem(long id, @NonNull String room, @NonNull String topic, @NonNull String time) {
+
+    public MeetingsViewStateItem(long id, @NonNull Room room, @NonNull String topic, @NonNull String time, @NonNull String mailList) {
         this.id = id;
         this.room = room;
         this.topic = topic;
         this.time = time;
+        mail_list = mailList;
     }
 
     public long getId() {
@@ -33,7 +39,7 @@ public class MeetingsViewStateItem {
     }
 
     @NonNull
-    public String getRoom() {
+    public Room getRoom() {
         return room;
     }
 
@@ -42,17 +48,22 @@ public class MeetingsViewStateItem {
         return time;
     }
 
+    @NonNull
+    public String getMail_list() {
+        return mail_list;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MeetingsViewStateItem that = (MeetingsViewStateItem) o;
-        return id == that.id && room.equals(that.room) && topic.equals(that.topic) && time.equals(that.time);
+        return id == that.id && room.equals(that.room) && topic.equals(that.topic) && time.equals(that.time) && mail_list.equals(that.mail_list);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, room, time, topic);
+        return Objects.hash(id, room, time, topic, mail_list);
     }
 
     @NonNull
@@ -63,6 +74,7 @@ public class MeetingsViewStateItem {
             ", room='" + room + '\'' +
             ", time='" + time + '\'' +
             ", topic='" + topic + '\'' +
+            ", mail_list='" + mail_list + '\'' +
             '}';
     }
 }

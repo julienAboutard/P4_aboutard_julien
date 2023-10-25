@@ -10,10 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meeting_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_anchor="@+id/meeting_rv"
         app:layout_anchorGravity="bottom|center"
-        tools:listitem="@layout/meeting_item"/>
+        tools:listitem="@layout/meeting_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbtn"
@@ -22,7 +22,5 @@
         android:src="@android:drawable/ic_input_add"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp" />
-
-    "
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

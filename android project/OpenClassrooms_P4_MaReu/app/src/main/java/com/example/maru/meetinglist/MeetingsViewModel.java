@@ -27,8 +27,19 @@ public class MeetingsViewModel extends ViewModel {
 
     public LiveData<List<MeetingsViewStateItem>> getMeetingLiveData() {
         return Transformations.map(meetingRepository.getMeetingsLiveData(), meetings -> {
-            List<MeetingsViewStateItem> Meetings = new ArrayList<>();
-            return Meetings;
+            List<MeetingsViewStateItem> meetingsViewStateItems = new ArrayList<>();
+
+            for (Meeting meeting : meetings) {
+                meetingsViewStateItems.add(
+                        new MeetingsViewStateItem(
+                                meeting.getId(),
+                                meeting.getRoom(),
+                                meeting.getTopic(),
+                                meeting.getTime(),
+                                meeting.getMail_list())
+                );
+            }
+            return meetingsViewStateItems;
         });
     }
 }

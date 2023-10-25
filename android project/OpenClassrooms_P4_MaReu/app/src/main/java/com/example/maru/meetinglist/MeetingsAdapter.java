@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
-import com.example.maru.data.Meeting;
-import com.example.maru.data.MeetingRepository;
 import com.example.maru.databinding.MeetingItemBinding;
 
 import java.util.ArrayList;
@@ -34,60 +34,35 @@ public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem,MeetingsA
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.meeting_item, parent, false));
+                MeetingItemBinding.inflate(
+                        LayoutInflater.from(parent.getContext()),parent,false
+                ));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MeetingsViewStateItem item = meetings.get(position);
-        holder.topicTextView.setText(item.getTopic());
-        holder.roomTextView.setText(item.getRoom());
-        holder.timeTextView.setText(item.getTime());
-        //holder.mailTextView.setText(item.getMail_list());
-        //holder.deleteImageView.setOnClickListener(v -> holder.onDeleteMeetingClicked(item.getId()));
-    }
-
-    @Override
-    public int getItemCount() {
-        return meetings.size();
+        holder.bind(getItem(position), listener);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-//        private final MeetingItemBinding binding;
-        private final TextView topicTextView;
-        private final TextView roomTextView;
-        private final TextView timeTextView;
-        private final TextView mailTextView;
-        private final ImageView deleteImageView;
+        private final MeetingItemBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            /*super(binding.getRoot());
-            this.binding =  binding;*/
-
-            super(itemView);
-
-            topicTextView = itemView.findViewById(R.id.meeting_topic);
-            roomTextView = itemView.findViewById(R.id.room);
-            timeTextView = itemView.findViewById(R.id.time);
-            mailTextView = itemView.findViewById(R.id.mail_list);
-            deleteImageView = itemView.findViewById(R.id.delete_icon);
+        public ViewHolder(@NonNull MeetingItemBinding binding) {
+            super(binding.getRoot());
+            this.binding =  binding;
         }
 
         public void bind(MeetingsViewStateItem item, OnMeetingClickedListener listener) {
-//            itemView.setOnClickListener(v -> listener.onMeetingClicked(item.getId()));
-            topicTextView.setText(item.getTopic());
-            roomTextView.setText(item.getRoom());
-            timeTextView.setText(item.getTime());
-            //mailTextView.setText(item.getMail_list());
-            deleteImageView.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));
+            itemView.setOnClickListener(v -> listener.onMeetingClicked(item.getId()));
+            Glide.with(binding.roomImage)
+                    .load(item.getRoom().getIcon())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.roomImage);
+            binding.meetingTopic.setText(item.getTopic() + " - " +item.getTime() +" - " + item.getRoom().getName());
+            binding.meetingAttendee.setText(item.getMail_list());
+            binding.deleteIcon.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));
         }
-    }
-
-    public void setMeetings(List<MeetingsViewStateItem> meetings) {
-        this.meetings = meetings;
-        notifyDataSetChanged();
     }
 
     private static class ListMeetingItemCallback extends DiffUtil.ItemCallback<MeetingsViewStateItem> {
