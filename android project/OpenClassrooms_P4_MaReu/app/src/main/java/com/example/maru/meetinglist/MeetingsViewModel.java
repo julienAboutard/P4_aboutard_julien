@@ -2,6 +2,7 @@ package com.example.maru.meetinglist;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
@@ -15,6 +16,7 @@ public class MeetingsViewModel extends ViewModel {
     @NonNull
     private final MeetingRepository meetingRepository;
 
+    private final MediatorLiveData<List<MeetingsViewStateItem>> mediatorLiveData = new MediatorLiveData<>();
 
     public MeetingsViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
@@ -31,12 +33,13 @@ public class MeetingsViewModel extends ViewModel {
 
             for (Meeting meeting : meetings) {
                 meetingsViewStateItems.add(
-                        new MeetingsViewStateItem(
-                                meeting.getId(),
-                                meeting.getRoom(),
-                                meeting.getTopic(),
-                                meeting.getTime(),
-                                meeting.getMail_list())
+                    new MeetingsViewStateItem(
+                        meeting.getId(),
+                        meeting.getRoom(),
+                        meeting.getTopic(),
+                        meeting.getTime(),
+                        meeting.getMailList()
+                    )
                 );
             }
             return meetingsViewStateItems;

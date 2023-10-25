@@ -2,7 +2,6 @@ package com.example.maru.data;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Meeting {
@@ -47,7 +46,7 @@ public class Meeting {
     public String getTopic() {return topic;}
 
     @NonNull
-    public String getMail_list() {return mail_list;}
+    public String getMailList() {return mail_list;}
 
     @Override
     public boolean equals(Object o) {

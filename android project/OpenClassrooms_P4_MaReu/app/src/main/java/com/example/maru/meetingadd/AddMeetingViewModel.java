@@ -11,12 +11,15 @@ import com.example.maru.data.Room;
 import com.example.maru.util.SingleLiveEvent;
 
 public class AddMeetingViewModel extends ViewModel {
+
     @NonNull
     private final MeetingRepository meetingRepository;
 
     private final MutableLiveData<Boolean> isSaveButtonEnabledMutableLiveData = new MutableLiveData<>(false);
 
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
+
+    private Room selectedRoom = Room.ROY;
 
     public AddMeetingViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
@@ -31,14 +34,17 @@ public class AddMeetingViewModel extends ViewModel {
     }
 
     public void onAddButtonClicked(
-            @NonNull Room room,
-            @Nullable String time,
-            @Nullable String topic,
-            @Nullable String mail_list
+        @NonNull String time,
+        @NonNull String topic,
+        @NonNull String mailList
     ) {
         // Add neighbour to the repository...
-        meetingRepository.addMeeting(room, time, topic, mail_list);
+        meetingRepository.addMeeting(selectedRoom, time, topic, mailList);
         // ... and close the Activity !
         closeActivitySingleLiveEvent.call();
+    }
+
+    public void onRoomSelected(@NonNull Room room) {
+        selectedRoom = room;
     }
 }

@@ -18,4 +18,6 @@
     <string name="marth">Marth</string>
     <string name="chrom">Chrom</string>
     <string name="robin">Robin</string>
+
+    <string name="meeting_topic">%s - %s - %s</string>
 </resources>

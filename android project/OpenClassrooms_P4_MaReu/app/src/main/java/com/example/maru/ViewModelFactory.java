@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.maru.data.MeetingRepository;
-import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetingadd.AddMeetingViewModel;
+import com.example.maru.meetingdetail.MeetingDetailViewModel;
 import com.example.maru.meetinglist.MeetingsViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
@@ -18,7 +18,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             synchronized (ViewModelFactory.class) {
                 if (factory == null) {
                     factory = new ViewModelFactory(
-                            new MeetingRepository()
+                        new MeetingRepository()
                     );
                 }
             }
@@ -42,20 +42,17 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MeetingsViewModel.class)) {
             return (T) new MeetingsViewModel(
-                    meetingRepository
+                meetingRepository
             );
-        }
-        else if (modelClass.isAssignableFrom(AddMeetingViewModel.class)) {
+        } else if (modelClass.isAssignableFrom(AddMeetingViewModel.class)) {
             return (T) new AddMeetingViewModel(
-                    meetingRepository
+                meetingRepository
+            );
+        } else if (modelClass.isAssignableFrom(MeetingDetailViewModel.class)) {
+            return (T) new MeetingDetailViewModel(
+                meetingRepository
             );
         }
-        /*else if (modelClass.isAssignableFrom(NeighbourDetailViewModel.class)) {
-            return (T) new NeighbourDetailViewModel(
-                    MainApplication.getInstance(),
-                    meetingRepository
-            );
-        }*/
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
 }

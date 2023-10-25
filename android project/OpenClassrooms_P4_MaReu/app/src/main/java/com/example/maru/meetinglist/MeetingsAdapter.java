@@ -1,10 +1,7 @@
 package com.example.maru.meetinglist;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -19,7 +16,7 @@ import com.example.maru.databinding.MeetingItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem,MeetingsAdapter.ViewHolder> {
+public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem, MeetingsAdapter.ViewHolder> {
 
     List<MeetingsViewStateItem> meetings = new ArrayList<>();
     private final OnMeetingClickedListener listener;
@@ -34,9 +31,9 @@ public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem,MeetingsA
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                MeetingItemBinding.inflate(
-                        LayoutInflater.from(parent.getContext()),parent,false
-                ));
+            MeetingItemBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false
+            ));
     }
 
     @Override
@@ -50,16 +47,24 @@ public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem,MeetingsA
 
         public ViewHolder(@NonNull MeetingItemBinding binding) {
             super(binding.getRoot());
-            this.binding =  binding;
+            this.binding = binding;
         }
 
         public void bind(MeetingsViewStateItem item, OnMeetingClickedListener listener) {
             itemView.setOnClickListener(v -> listener.onMeetingClicked(item.getId()));
             Glide.with(binding.roomImage)
-                    .load(item.getRoom().getIcon())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(binding.roomImage);
-            binding.meetingTopic.setText(item.getTopic() + " - " +item.getTime() +" - " + item.getRoom().getName());
+                .load(item.getRoom().getIcon())
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.roomImage);
+            binding.meetingTopic.setText(
+                binding.meetingTopic.getContext().getString(
+                    R.string.meeting_topic,
+                    item.getTopic(),
+                    item.getTime(),
+                    binding.meetingTopic.getContext().getString(item.getRoom().getName())
+                )
+            );
+
             binding.meetingAttendee.setText(item.getMail_list());
             binding.deleteIcon.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));
         }
