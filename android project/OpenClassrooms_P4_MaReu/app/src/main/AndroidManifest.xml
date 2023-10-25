@@ -26,7 +26,10 @@
         <activity
             android:name=".meetingadd.AddMeetingActivity"
             android:label="New Meeting">
-
+        </activity>
+        <activity
+            android:name=".meetingdetail.MeetingDetailActivity"
+            android:label="Meeting Detail">
         </activity>
     </application>
 

@@ -3,6 +3,7 @@ package com.example.maru.meetingadd;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -37,6 +38,15 @@ public class AddMeetingActivity extends AppCompatActivity {
         bindAddButton(viewModel, roomEditText, timeEditText, topicEditText, mailEditText, addMeetingButton);
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void bindAddButton(AddMeetingViewModel viewModel, TextInputEditText roomEditText, TextInputEditText timeEditText, TextInputEditText topicEditText, TextInputEditText mailEditText, Button addMeetingButton) {

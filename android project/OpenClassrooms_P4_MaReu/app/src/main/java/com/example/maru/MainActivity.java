@@ -1,5 +1,7 @@
 package com.example.maru;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.example.maru.data.Meeting;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.meetingadd.AddMeetingActivity;
+import com.example.maru.meetingdetail.MeetingDetailActivity;
 import com.example.maru.meetinglist.MeetingsAdapter;
 import com.example.maru.meetinglist.MeetingsViewModel;
 import com.example.maru.meetinglist.MeetingsViewStateItem;
@@ -53,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         MeetingsAdapter adapter = new MeetingsAdapter(new OnMeetingClickedListener() {
 
             @Override
-            public void onMeetingClicked(long neighbourId) {
-
+            public void onMeetingClicked(long meetingId) {
+                startActivities(new Intent[]{MeetingDetailActivity.navigate(getApplicationContext(), meetingId)});
             }
             @Override
             public void onDeleteMeetingClicked(long neighbourId) {
