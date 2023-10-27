@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MaRéu</string>
+
+
+    <string name="delete_meeting">Delete meeting</string>
+    <string name="attendee">Attendee</string>
+    <string name="add">Add</string>
+    <string name="room_name">Room Name</string>
+
+    <string name="topic">Topic</string>
+    <string name="time">Time</string>
+    <string name="mail">Mail List</string>
+
+    <string name="choose">Choose</string>
+    <string name="roy">Roy</string>
+    <string name="lucina">Lucina</string>
+    <string name="ike">Ike</string>
+    <string name="marth">Marth</string>
+    <string name="chrom">Chrom</string>
+    <string name="robin">Robin</string>
+
+    <string name="meeting_topic">%s - %s - %s</string>
+</resources>
