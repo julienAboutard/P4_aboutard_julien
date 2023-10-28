@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.maru.data.Room;
 
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class MeetingsViewStateItem {
@@ -15,13 +16,13 @@ public class MeetingsViewStateItem {
     private final Room room;
 
     @NonNull
-    private final String time;
+    private final LocalTime time;
 
     @NonNull
-    private  final String mail_list;
+    private final String mail_list;
 
 
-    public MeetingsViewStateItem(long id, @NonNull Room room, @NonNull String topic, @NonNull String time, @NonNull String mailList) {
+    public MeetingsViewStateItem(long id, @NonNull Room room, @NonNull String topic, @NonNull LocalTime time, @NonNull String mailList) {
         this.id = id;
         this.room = room;
         this.topic = topic;
@@ -44,7 +45,7 @@ public class MeetingsViewStateItem {
     }
 
     @NonNull
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
@@ -58,7 +59,11 @@ public class MeetingsViewStateItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MeetingsViewStateItem that = (MeetingsViewStateItem) o;
-        return id == that.id && room.equals(that.room) && topic.equals(that.topic) && time.equals(that.time) && mail_list.equals(that.mail_list);
+        return id == that.id
+            && room.equals(that.room)
+            && topic.equals(that.topic)
+            && time.equals(that.time)
+            && mail_list.equals(that.mail_list);
     }
 
     @Override

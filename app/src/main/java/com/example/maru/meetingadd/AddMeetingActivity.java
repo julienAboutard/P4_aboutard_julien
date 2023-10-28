@@ -1,5 +1,6 @@
 package com.example.maru.meetingadd;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,11 +22,18 @@ import com.example.maru.ViewModelFactory;
 import com.example.maru.data.Room;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.time.LocalTime;
+import java.util.Locale;
+
 public class AddMeetingActivity extends AppCompatActivity {
 
     public static Intent navigate(Context context) {
         return new Intent(context, AddMeetingActivity.class);
     }
+
+    private TextInputEditText timeEditText;
+
+    private LocalTime time = LocalTime.now();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +53,6 @@ public class AddMeetingActivity extends AppCompatActivity {
                 Room room = (Room) parent.getItemAtPosition(position);
 
                 viewModel.onRoomSelected(room);
-
-                Toast.makeText(AddMeetingActivity.this,
-                    room.getName(),
-                    Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -55,16 +60,19 @@ public class AddMeetingActivity extends AppCompatActivity {
 
             }
         });
-        TextInputEditText timeEditText = findViewById(R.id.meeting_time_add_tiet);
+
+        timeEditText = findViewById(R.id.meeting_time_add_tiet);
+
+
+
         TextInputEditText topicEditText = findViewById(R.id.meeting_topic_add_tiet);
         TextInputEditText mailEditText = findViewById(R.id.meeting_mail_add_tiet);
         Button addMeetingButton = findViewById(R.id.meeting_button_add);
 
         addMeetingButton.setOnClickListener(v -> viewModel.onAddButtonClicked(
-            timeEditText.getText().toString(),
             topicEditText.getText().toString(),
-            mailEditText.getText().toString()
-        ));
+            mailEditText.getText().toString())
+        );
 
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
     }
@@ -76,5 +84,19 @@ public class AddMeetingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void popTimePicker (View view) {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, hourOfDay, minute) -> {
+            AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
+
+            time = LocalTime.of(hourOfDay, minute);
+            viewModel.onSelectedTime(time);
+
+            timeEditText.setText(String.format(Locale.getDefault(), "%02d:%02d", time.getHour(), time.getMinute()));
+
+        };
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, onTimeSetListener, time.getHour(), time.getMinute(), true);
+        timePickerDialog.show();
     }
 }

@@ -19,5 +19,8 @@
     <string name="chrom">Chrom</string>
     <string name="robin">Robin</string>
 
-    <string name="meeting_topic">%s - %s - %s</string>
+    <string name="meeting_quick_detail">%s - %s - %s</string>
+    <string name="detail_topic_format">Topic : %s</string>
+    <string name="detail_time_format">Meeting hour : %02d:%02d</string>
+    <string name="time_format">%02d:%02d</string>
 </resources>

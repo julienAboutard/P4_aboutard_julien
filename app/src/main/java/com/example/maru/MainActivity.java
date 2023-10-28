@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.meeting_rv);
 
-//        MeetingRepository meetingRepository = new MeetingRepository();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         fab.setOnClickListener(v -> startActivities(new Intent[]{AddMeetingActivity.navigate(this)}));
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMeetingClicked(long meetingId) {
                 startActivities(new Intent[]{MeetingDetailActivity.navigate(getApplicationContext(), meetingId)});
             }
+
             @Override
             public void onDeleteMeetingClicked(long meetingId) {
                 viewModel.onDeleteMeetingClicked(meetingId);
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.submitList(meetings);
         });
     }
-
 
 
 }

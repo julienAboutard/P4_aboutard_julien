@@ -1,7 +1,6 @@
 package com.example.maru.meetingadd;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.data.Room;
 import com.example.maru.util.SingleLiveEvent;
+
+import java.time.LocalTime;
 
 public class AddMeetingViewModel extends ViewModel {
 
@@ -20,6 +21,7 @@ public class AddMeetingViewModel extends ViewModel {
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
 
     private Room selectedRoom = Room.ROY;
+    private LocalTime selectedTime = LocalTime.now();
 
     public AddMeetingViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
@@ -33,13 +35,9 @@ public class AddMeetingViewModel extends ViewModel {
         return closeActivitySingleLiveEvent;
     }
 
-    public void onAddButtonClicked(
-        @NonNull String time,
-        @NonNull String topic,
-        @NonNull String mailList
-    ) {
+    public void onAddButtonClicked(@NonNull String topic, @NonNull String mailList) {
         // Add neighbour to the repository...
-        meetingRepository.addMeeting(selectedRoom, time, topic, mailList);
+        meetingRepository.addMeeting(selectedRoom, selectedTime, topic, mailList);
         // ... and close the Activity !
         closeActivitySingleLiveEvent.call();
     }
@@ -47,4 +45,9 @@ public class AddMeetingViewModel extends ViewModel {
     public void onRoomSelected(@NonNull Room room) {
         selectedRoom = room;
     }
+
+    public void onSelectedTime(@NonNull LocalTime selectedTime) {
+        this.selectedTime = selectedTime;
+    }
+
 }

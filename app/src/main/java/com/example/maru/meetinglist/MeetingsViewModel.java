@@ -20,7 +20,6 @@ public class MeetingsViewModel extends ViewModel {
 
     public MeetingsViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
-        meetingRepository.generateRandomMeetings();
     }
 
     public void onDeleteMeetingClicked(long neighbourId) {

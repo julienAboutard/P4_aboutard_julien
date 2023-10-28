@@ -58,9 +58,9 @@ public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem, Meetings
                 .into(binding.roomImage);
             binding.meetingTopic.setText(
                 binding.meetingTopic.getContext().getString(
-                    R.string.meeting_topic,
+                    R.string.meeting_quick_detail,
                     item.getTopic(),
-                    item.getTime(),
+                    binding.meetingTopic.getContext().getString(R.string.time_format, item.getTime().getHour(), item.getTime().getMinute()),
                     binding.meetingTopic.getContext().getString(item.getRoom().getName())
                 )
             );

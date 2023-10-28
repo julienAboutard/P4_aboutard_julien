@@ -4,17 +4,18 @@ import androidx.annotation.NonNull;
 
 import com.example.maru.data.Room;
 
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class MeetingDetailViewStateItem {
     @NonNull
     private final Room room;
     @NonNull
-    private final String time;
+    private final LocalTime time;
     @NonNull
     private final String topic;
     @NonNull
-    private final String mail_list;
+    private final String mailList;
 
     @NonNull
     public Room getRoom() {
@@ -22,7 +23,7 @@ public class MeetingDetailViewStateItem {
     }
 
     @NonNull
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
@@ -32,20 +33,20 @@ public class MeetingDetailViewStateItem {
     }
 
     @NonNull
-    public String getMail_list() {
-        return mail_list;
+    public String getMailList() {
+        return mailList;
     }
 
     public MeetingDetailViewStateItem(
-            @NonNull Room room,
-            @NonNull String time,
-            @NonNull String topic,
-            @NonNull String mail_list
+        @NonNull Room room,
+        @NonNull LocalTime time,
+        @NonNull String topic,
+        @NonNull String mailList
     ) {
         this.room = room;
         this.time = time;
         this.topic = topic;
-        this.mail_list = mail_list;
+        this.mailList = mailList;
 
     }
 
@@ -54,21 +55,21 @@ public class MeetingDetailViewStateItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MeetingDetailViewStateItem that = (MeetingDetailViewStateItem) o;
-        return room.equals(that.room) && time.equals(that.time) && topic.equals(that.topic) && mail_list.equals(that.mail_list);
+        return room.equals(that.room) && time.equals(that.time) && topic.equals(that.topic) && mailList.equals(that.mailList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(room, time, topic, mail_list);
+        return Objects.hash(room, time, topic, mailList);
     }
 
     @Override
     public String toString() {
         return "MeetingDetailViewStateItem{" +
-                "room='" + room + '\'' +
-                ", time='" + time + '\'' +
-                ", topic='" + topic + '\'' +
-                ", mail_list='" + mail_list + '\'' +
-                '}';
+            "room='" + room + '\'' +
+            ", time='" + time + '\'' +
+            ", topic='" + topic + '\'' +
+            ", mail_list='" + mailList + '\'' +
+            '}';
     }
 }

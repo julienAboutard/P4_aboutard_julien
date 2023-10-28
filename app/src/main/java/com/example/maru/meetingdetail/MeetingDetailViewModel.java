@@ -18,13 +18,13 @@ public class MeetingDetailViewModel extends ViewModel {
 
     public LiveData<MeetingDetailViewStateItem> getMeetingDetailViewStateLiveData(long meetingId) {
         return Transformations.map(
-                meetingRepository.getMeetingLiveData(meetingId),
-                meeting -> new MeetingDetailViewStateItem(
-                        meeting.getRoom(),
-                        meeting.getTopic(),
-                        meeting.getTime(),
-                        meeting.getMailList()
-                )
+            meetingRepository.getMeetingLiveData(meetingId),
+            meeting -> new MeetingDetailViewStateItem(
+                meeting.getRoom(),
+                meeting.getTime(),
+                meeting.getTopic(),
+                meeting.getMailList()
+            )
         );
     }
 }

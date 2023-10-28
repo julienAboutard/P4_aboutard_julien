@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.maru.config.BuildConfigResolver;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.meetingadd.AddMeetingViewModel;
 import com.example.maru.meetingdetail.MeetingDetailViewModel;
@@ -17,9 +18,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (factory == null) {
             synchronized (ViewModelFactory.class) {
                 if (factory == null) {
-                    factory = new ViewModelFactory(
-                        new MeetingRepository()
-                    );
+                    factory = new ViewModelFactory(new MeetingRepository(new BuildConfigResolver()));
                 }
             }
         }
@@ -41,17 +40,11 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MeetingsViewModel.class)) {
-            return (T) new MeetingsViewModel(
-                meetingRepository
-            );
+            return (T) new MeetingsViewModel(meetingRepository);
         } else if (modelClass.isAssignableFrom(AddMeetingViewModel.class)) {
-            return (T) new AddMeetingViewModel(
-                meetingRepository
-            );
+            return (T) new AddMeetingViewModel(meetingRepository);
         } else if (modelClass.isAssignableFrom(MeetingDetailViewModel.class)) {
-            return (T) new MeetingDetailViewModel(
-                meetingRepository
-            );
+            return (T) new MeetingDetailViewModel(meetingRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

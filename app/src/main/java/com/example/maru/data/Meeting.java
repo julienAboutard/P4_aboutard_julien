@@ -2,6 +2,7 @@ package com.example.maru.data;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Meeting {
@@ -9,7 +10,7 @@ public class Meeting {
     private final long id;
 
     @NonNull
-    private final String time;
+    private final LocalTime time;
 
     @NonNull
     private final Room room;
@@ -20,13 +21,7 @@ public class Meeting {
     @NonNull
     private final String mail_list;
 
-    public Meeting(
-        long id,
-        @NonNull Room room,
-        @NonNull String time,
-        @NonNull String topic,
-        @NonNull String mail_list
-    ) {
+    public Meeting(long id, @NonNull Room room, @NonNull LocalTime time, @NonNull String topic, @NonNull String mail_list) {
         this.id = id;
         this.room = room;
         this.time = time;
@@ -34,27 +29,36 @@ public class Meeting {
         this.mail_list = mail_list;
     }
 
-    public long getId() {return id;}
+    public long getId() {
+        return id;
+    }
 
     @NonNull
-    public String getTime() {return time;}
+    public LocalTime getTime() {
+        return time;
+    }
 
     @NonNull
-    public Room getRoom() {return room;}
+    public Room getRoom() {
+        return room;
+    }
 
     @NonNull
-    public String getTopic() {return topic;}
+    public String getTopic() {
+        return topic;
+    }
 
     @NonNull
-    public String getMailList() {return mail_list;}
+    public String getMailList() {
+        return mail_list;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meeting meeting = (Meeting) o;
-        return id == meeting.id && room == meeting.room && time == meeting.time
-                && topic == meeting.topic && mail_list == meeting.mail_list ;
+        return id == meeting.id && room == meeting.room && time == meeting.time && topic == meeting.topic && mail_list == meeting.mail_list;
     }
 
     @Override
@@ -66,11 +70,11 @@ public class Meeting {
     @Override
     public String toString() {
         return "Meeting{" +
-                "id=" + id +
-                ", room='" + room + '\'' +
-                ", time='" + time + '\'' +
-                ", topic='" + topic + '\'' +
-                ", mail_list='" + mail_list + '\'' +
-                '}';
+            "id=" + id +
+            ", room='" + room + '\'' +
+            ", time='" + time + '\'' +
+            ", topic='" + topic + '\'' +
+            ", mail_list='" + mail_list + '\'' +
+            '}';
     }
 }

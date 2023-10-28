@@ -6,7 +6,6 @@ import androidx.annotation.StringRes;
 import com.example.maru.R;
 
 public enum Room {
-    CHOOSE(R.string.choose, 0),
     ROY(R.string.roy, R.drawable.ic_room_roy),
     Lucina(R.string.lucina, R.drawable.ic_room_lucina),
     Ike(R.string.ike, R.drawable.ic_room_ike),

@@ -9,6 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.maru.config.BuildConfigResolver;
+
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,27 +22,21 @@ public class MeetingRepository {
 
     private long maxId = 0;
 
-    public void addMeeting(
-        @NonNull Room room,
-        @NonNull String time,
-        @NonNull String topic,
-        @NonNull String mail_list
-    ) {
+    public MeetingRepository(BuildConfigResolver buildConfigResolver) {
+        // At startup, when creating repo, if we're in debug mode, add random Neighbours
+        if (buildConfigResolver.isDebug()) {
+            generateRandomMeetings();
+        }
+    }
+
+    public void addMeeting(@NonNull Room room, @NonNull LocalTime time, @NonNull String topic, @NonNull String mail_list) {
         List<Meeting> meetings = meetingLiveData.getValue();
 
         if (meetings == null) {
             meetings = new ArrayList<>();
         }
 
-        meetings.add(
-            new Meeting(
-                maxId,
-                room,
-                time,
-                topic,
-                mail_list
-            )
-        );
+        meetings.add(new Meeting(maxId, room, time, topic, mail_list));
         maxId++;
         meetingLiveData.setValue(meetings);
     }
@@ -81,30 +78,13 @@ public class MeetingRepository {
     }
 
     public void generateRandomMeetings() {
-        addMeeting(
-            ROY,
-            "8:00",
-            "Asura",
-            "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr"
-        );
-        addMeeting(
-            Lucina,
-            "16:00",
-            "Aphrodite",
-            "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr"
-        );
-        addMeeting(
-            Robin,
-            "14:00",
-            "Astarté",
-            "brahma@test.fr, thot@test.fr, ra@test.fr"
-        );
-        addMeeting(
-            ROY,
-            "10:00",
-            "Enfer",
-            "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr"
-        );
+        addMeeting(ROY, LocalTime.parse("08:00"), "Asura s'est rendu en enfer pour attaquer Hadès", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr" +
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        addMeeting(Lucina, LocalTime.parse("16:00"), "Aphrodite", "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr");
+        addMeeting(Robin, LocalTime.parse("14:00"), "Astarté", "brahma@test.fr, thot@test.fr, ra@test.fr");
+        addMeeting(ROY, LocalTime.parse("10:00"), "Enfer", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr");
     }
 
 }
