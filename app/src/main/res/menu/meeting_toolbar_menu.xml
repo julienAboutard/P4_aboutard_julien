@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/room_filter"
+        android:icon="@drawable/ic_meeting_room_24dp"
+        android:title="@string/room_filter"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/hour_filter"
+        android:icon="@drawable/ic_pace_24dp"
+        android:title="@string/hour_filter"
+        app:showAsAction="ifRoom"/>
+</menu>
