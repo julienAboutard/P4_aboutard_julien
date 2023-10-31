@@ -8,7 +8,6 @@ import com.example.maru.config.BuildConfigResolver;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.meetingadd.AddMeetingViewModel;
 import com.example.maru.meetingdetail.MeetingDetailViewModel;
-import com.example.maru.meetinglist.MeetingsViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 

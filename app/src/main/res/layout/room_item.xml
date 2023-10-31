@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room_item_chip"
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:checkable="true"
+    android:padding="4dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    app:closeIconVisible="false"
+    tools:chipIcon="@sample/rooms.json/data/room_icon"
+    tools:text="@sample/rooms.json/data/room_name">
+</com.google.android.material.chip.Chip>

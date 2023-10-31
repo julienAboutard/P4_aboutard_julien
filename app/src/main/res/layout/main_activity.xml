@@ -24,18 +24,28 @@
             tools:menu='@menu/meeting_toolbar_menu' />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/room_filter_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/room_item"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hour_filter_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/hour_item" />
+            tools:listitem="@layout/hour_item"
+            tools:visibility="visible" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

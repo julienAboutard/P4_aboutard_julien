@@ -1,0 +1,29 @@
+{
+  "comment": "list rooms for filter",
+  "data": [
+    {
+      "room_name": "Roy",
+      "room_icon": "@drawable/ic_room_roy.png"
+    },
+    {
+      "room_name": "Lucina",
+      "room_icon": "@drawable/ic_room_lucina.png"
+    },
+    {
+      "room_name": "Chrom",
+      "room_icon": "@drawable/ic_room_chrom.png"
+    },
+    {
+      "room_name": "Ike",
+      "room_icon": "@drawable/ic_room_ike.png"
+    },
+    {
+      "room_name": "Marth",
+      "room_icon": "@drawable/ic_room_marth.png"
+    },
+    {
+      "room_name": "Robin",
+      "room_icon": "@drawable/ic_room_robin.png"
+    }
+  ]
+}

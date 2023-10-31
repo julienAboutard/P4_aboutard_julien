@@ -15,13 +15,13 @@ import com.example.maru.R;
 
 public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, HourFilterAdapter.ViewHolder> {
 
-    @NonNull
-    private final OnHourSelectedListener listener;
+    /*@NonNull
+    private final OnHourSelectedListener listener;*/
 
-    public HourFilterAdapter(@NonNull OnHourSelectedListener listener) {
+    public HourFilterAdapter() {
         super(new HourFilterAdapterDiffCallback());
 
-        this.listener = listener;
+        //this.listener = listener;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, Hour
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getItem(position), listener);
+        holder.bind(getItem(position));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,9 +45,9 @@ public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, Hour
             textViewHour = itemView.findViewById(R.id.hour_item_textview);
         }
 
-        public void bind(@NonNull final HourFilterItemViewState item, @NonNull final OnHourSelectedListener listener) {
+        public void bind(@NonNull final HourFilterItemViewState item) {
             textViewHour.setText(item.getHour());
-            textViewHour.setOnClickListener(v -> listener.onHourSelected(item.getHourLocalTime()));
+            //textViewHour.setOnClickListener(v -> listener.onHourSelected(item.getHourLocalTime()));
         }
     }
 
