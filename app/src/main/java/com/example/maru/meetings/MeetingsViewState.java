@@ -1,18 +1,17 @@
-package com.example.maru;
+package com.example.maru.meetings;
 
 import com.example.maru.filter.hour.HourFilterViewStateItem;
-import com.example.maru.meetinglist.MeetingsViewStateItem;
 
 import java.util.List;
 import java.util.Objects;
 
-public class MeetingViewState {
+public class MeetingsViewState {
 
     private final List<MeetingsViewStateItem> meetingsViewStateItems;
 
     private final List<HourFilterViewStateItem> hourFilterViewStateItems;
 
-    public MeetingViewState(List<MeetingsViewStateItem> meetingsViewStateItems, List<HourFilterViewStateItem> hourFilterViewStateItems) {
+    public MeetingsViewState(List<MeetingsViewStateItem> meetingsViewStateItems, List<HourFilterViewStateItem> hourFilterViewStateItems) {
         this.meetingsViewStateItems = meetingsViewStateItems;
         this.hourFilterViewStateItems = hourFilterViewStateItems;
     }
@@ -29,7 +28,7 @@ public class MeetingViewState {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MeetingViewState that = (MeetingViewState) o;
+        MeetingsViewState that = (MeetingsViewState) o;
         return meetingsViewStateItems.equals(that.meetingsViewStateItems) && hourFilterViewStateItems.equals(that.hourFilterViewStateItems);
     }
 

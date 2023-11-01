@@ -1,7 +1,8 @@
-package com.example.maru;
+package com.example.maru.meetings;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,7 +13,6 @@ import com.example.maru.data.Meeting;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.data.Room;
 import com.example.maru.filter.hour.HourFilterViewStateItem;
-import com.example.maru.meetinglist.MeetingsViewStateItem;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class MeetingsViewModel extends ViewModel {
     @NonNull
     private final MeetingRepository meetingRepository;
 
-    private final MediatorLiveData<MeetingViewState> meetingViewStateMediatorLiveData = new MediatorLiveData<>();
+    private final MediatorLiveData<MeetingsViewState> meetingViewStateMediatorLiveData = new MediatorLiveData<>();
 
     private final MutableLiveData<Map<LocalTime, Boolean>> hoursLiveData = new MutableLiveData<>();
 
@@ -34,67 +34,57 @@ public class MeetingsViewModel extends ViewModel {
      * Construct a new ViewModel instance.
      * <p>
      * You should <strong>never</strong> manually construct a ViewModel outside of a
-     * {@link ViewModelProvider.Factory}.
+     * {@link com.example.maru.ViewModelFactory}.
      */
     public MeetingsViewModel(@NonNull MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
 
-        meetingMediatorLiveData();
-    }
-
-    public void onDeleteMeetingClicked(long neighbourId) {
-        meetingRepository.deleteNeighbour(neighbourId);
-    }
-
-
-    public void meetingMediatorLiveData() {
         final LiveData<List<Meeting>> meetingsLiveData = meetingRepository.getMeetingsLiveData();
-        setHoursLiveData(hoursDistribution());
+        hoursLiveData.setValue(getHoursDistribution());
 
         meetingViewStateMediatorLiveData.addSource(meetingsLiveData, new Observer<List<Meeting>>() {
             @Override
             public void onChanged(List<Meeting> meetings) {
-                meetingViewStateMediatorLiveData.setValue(
-                    combine(meetings, hoursLiveData.getValue(), roomsLiveData.getValue())
-                );
+                combine(meetings, hoursLiveData.getValue(), roomsLiveData.getValue());
             }
         });
 
         meetingViewStateMediatorLiveData.addSource(hoursLiveData, new Observer<Map<LocalTime, Boolean>>() {
             @Override
             public void onChanged(Map<LocalTime, Boolean> localTimeBooleanMap) {
-                meetingViewStateMediatorLiveData.setValue(
-                    combine(meetingsLiveData.getValue(), localTimeBooleanMap, roomsLiveData.getValue())
-                );
+                combine(meetingsLiveData.getValue(), localTimeBooleanMap, roomsLiveData.getValue());
             }
         });
 
         meetingViewStateMediatorLiveData.addSource(roomsLiveData, new Observer<Map<Room, Boolean>>() {
             @Override
             public void onChanged(Map<Room, Boolean> roomBooleanMap) {
-                meetingViewStateMediatorLiveData.setValue((
-                    combine(meetingsLiveData.getValue(), hoursLiveData.getValue(), roomBooleanMap )
-                    ));
+                combine(meetingsLiveData.getValue(), hoursLiveData.getValue(), roomBooleanMap);
             }
         });
     }
 
-    public void setHoursLiveData(Map<LocalTime, Boolean> localTimeBooleanMap){
-        hoursLiveData.setValue(localTimeBooleanMap);
+    public void onDeleteMeetingClicked(long neighbourId) {
+        meetingRepository.deleteNeighbour(neighbourId);
     }
 
     public void setRoomsLiveData(Map<Room, Boolean> roomBooleanMap) {
         roomsLiveData.setValue(roomBooleanMap);
     }
 
-    public MediatorLiveData<MeetingViewState> getListFilterMeetings(){
+    public MediatorLiveData<MeetingsViewState> getListFilterMeetings() {
         return meetingViewStateMediatorLiveData;
     }
 
-    private MeetingViewState combine(
-        @NonNull List<Meeting> meetings,
-        @NonNull Map<LocalTime, Boolean> localTimeBooleanMap,
-        @NonNull Map<Room, Boolean> roomBooleanMap){
+    private void combine(
+        @Nullable List<Meeting> meetings,
+        @Nullable Map<LocalTime, Boolean> localTimeBooleanMap,
+        @Nullable Map<Room, Boolean> roomBooleanMap
+    ) {
+        if (meetings == null) {
+            return;
+        }
+
         List<Meeting> filteredMeetings = filterMeetings(meetings, localTimeBooleanMap, roomBooleanMap);
         List<MeetingsViewStateItem> meetingsViewStateItems = new ArrayList<>();
         for (Meeting meeting : filteredMeetings) {
@@ -111,12 +101,15 @@ public class MeetingsViewModel extends ViewModel {
 
         List<HourFilterViewStateItem> hourFilterViewStateItems = getHourFilterItemStateView(localTimeBooleanMap);
 
-        return new MeetingViewState(
-            meetingsViewStateItems,
-            hourFilterViewStateItems
+        meetingViewStateMediatorLiveData.setValue(
+            new MeetingsViewState(
+                meetingsViewStateItems,
+                hourFilterViewStateItems
+            )
         );
     }
-    private Map<LocalTime, Boolean> hoursDistribution() {
+
+    private Map<LocalTime, Boolean> getHoursDistribution() {
         Map<LocalTime, Boolean> hours = new LinkedHashMap<>();
         for (int hour = 6; hour <= 22; hour++) {
             hours.put(LocalTime.of(hour, 0), false);
@@ -131,29 +124,38 @@ public class MeetingsViewModel extends ViewModel {
         }
         return rooms;
     }
+
     private List<Meeting> filterMeetings(
         @NonNull List<Meeting> meetings,
-        @NonNull Map<LocalTime, Boolean> localTimeBooleanMap
+        @Nullable Map<LocalTime, Boolean> localTimeBooleanMap
     ) {
+        if (localTimeBooleanMap == null) {
+            return meetings;
+        }
+
         List<Meeting> filteredMeetings = new ArrayList<>();
         boolean hourSelected = false;
         boolean hourMatchMeeting = false;
 
-        if (meetings == null) {return filteredMeetings;}
-
         for (Meeting meeting : meetings) {
-            for (Map.Entry<LocalTime, Boolean> mapHourEntry : localTimeBooleanMap.entrySet()){
+            for (Map.Entry<LocalTime, Boolean> mapHourEntry : localTimeBooleanMap.entrySet()) {
                 LocalTime hour = mapHourEntry.getKey();
                 boolean selectedStatus = mapHourEntry.getValue();
 
-                if (selectedStatus) {hourSelected= true;}
+                if (selectedStatus) {
+                    hourSelected = true;
+                }
 
                 if (meeting.getTime().equals(hour)) {
                     hourMatchMeeting = selectedStatus;
                 }
             }
-            if (!hourSelected) {hourMatchMeeting = true;}
-            if (hourMatchMeeting) {filteredMeetings.add(meeting);}
+            if (!hourSelected) {
+                hourMatchMeeting = true;
+            }
+            if (hourMatchMeeting) {
+                filteredMeetings.add(meeting);
+            }
         }
         return filteredMeetings;
     }

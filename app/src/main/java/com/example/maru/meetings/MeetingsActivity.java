@@ -1,4 +1,4 @@
-package com.example.maru;
+package com.example.maru.meetings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,17 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.maru.R;
+import com.example.maru.ViewModelFactory;
 import com.example.maru.filter.hour.HourFilterAdapter;
 import com.example.maru.filter.hour.OnHourSelectedListener;
 import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetingdetail.MeetingDetailActivity;
-import com.example.maru.meetinglist.MeetingsAdapter;
-import com.example.maru.meetinglist.OnMeetingClickedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalTime;
 
-public class MainActivity extends AppCompatActivity {
+public class MeetingsActivity extends AppCompatActivity {
 
 
     @Override

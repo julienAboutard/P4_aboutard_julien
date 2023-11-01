@@ -1,4 +1,4 @@
-package com.example.maru.meetinglist;
+package com.example.maru.meetings;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

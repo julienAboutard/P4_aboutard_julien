@@ -1,4 +1,4 @@
-package com.example.maru.meetinglist;
+package com.example.maru.meetings;
 
 import androidx.annotation.NonNull;
 
