@@ -1,9 +1,7 @@
 package com.example.maru;
 
-import android.content.res.Resources;
-
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,12 +11,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.maru.data.Meeting;
 import com.example.maru.data.MeetingRepository;
-import com.example.maru.data.Room;
-import com.example.maru.filter.HourFilterItemViewState;
+import com.example.maru.filter.HourFilterItemStateView;
 import com.example.maru.meetinglist.MeetingsViewStateItem;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,18 +45,23 @@ public class MeetingsViewModel extends ViewModel {
 
     public void meetingMediatorLiveData() {
         final LiveData<List<Meeting>> meetingsLiveData = meetingRepository.getMeetingsLiveData();
+        setSelectedHoursLiveData(hoursDistribution());
 
         meetingViewStateMediatorLiveData.addSource(meetingsLiveData, new Observer<List<Meeting>>() {
             @Override
             public void onChanged(List<Meeting> meetings) {
-                combine(meetings, selectedHoursLiveData.getValue());
+                meetingViewStateMediatorLiveData.setValue(
+                    combine(meetings, selectedHoursLiveData.getValue())
+                );
             }
         });
 
         meetingViewStateMediatorLiveData.addSource(selectedHoursLiveData, new Observer<Map<LocalTime, Boolean>>() {
             @Override
             public void onChanged(Map<LocalTime, Boolean> localTimeBooleanMap) {
-                combine(meetingsLiveData.getValue(), localTimeBooleanMap);
+                meetingViewStateMediatorLiveData.setValue(
+                    combine(meetingsLiveData.getValue(), localTimeBooleanMap)
+                );
             }
         });
     }
@@ -70,95 +73,85 @@ public class MeetingsViewModel extends ViewModel {
     public MediatorLiveData<MeetingViewState> getListFilterMeetings(){
         return meetingViewStateMediatorLiveData;
     }
-    @NonNull
-    private MeetingViewState sortAndFilterMeetings(
-        @Nullable final List<Meeting> meetings,
-        @Nullable final Map<Room, Boolean> selectedRooms,
-        @Nullable final Map<LocalTime, Boolean> selectedHours
-    ) {
-        if (selectedRooms == null
-            || selectedHours == null) {
-            throw new IllegalStateException("All internal LiveData must be initialized !");
+
+    private MeetingViewState combine(
+        @NonNull List<Meeting> meetings,
+        @NonNull Map<LocalTime, Boolean> localTimeBooleanMap
+    ){
+        List<Meeting> filteredMeetings = filterMeetings(meetings, localTimeBooleanMap);
+        List<MeetingsViewStateItem> meetingsViewStateItems = new ArrayList<>();
+        for (Meeting meeting : filteredMeetings) {
+            meetingsViewStateItems.add(
+                new MeetingsViewStateItem(
+                    meeting.getId(),
+                    meeting.getRoom(),
+                    meeting.getTopic(),
+                    meeting.getTime(),
+                    meeting.getMailList()
+                )
+            );
         }
 
-        // Filter meetings...
-        List<Meeting> filteredMeetings = getFilteredMeetings(meetings, selectedRooms, selectedHours);
+        List<HourFilterItemStateView>  hourFilterItemStateViews = getHourFilterItemStateView(localTimeBooleanMap);
 
-        // ... and finally, map them !
-        List<MeetingsViewStateItem> meetingViewStateItems = new ArrayList<>();
-        for (Meeting filteredMeeting : filteredMeetings) {
-            meetingViewStateItems.add(mapMeeting(filteredMeeting));
-        }
-
-        // Compute room filters state
-        //List<MeetingViewStateRoomFilterItem> meetingViewStateRoomFilterItems = getMeetingViewStateRoomFilterItems(selectedRooms);
-
-        // Compute hour filters state
-        List<HourFilterItemViewState> meetingViewStateHourFilterItems = getMeetingViewStateHourFilterItems(selectedHours);
-
-        // Expose this to the Activity !
         return new MeetingViewState(
-            meetingViewStateItems,
-            meetingViewStateHourFilterItems
+            meetingsViewStateItems,
+            hourFilterItemStateViews
         );
     }
-
-    @NonNull
-    private List<Meeting> getFilteredMeetings(@Nullable List<Meeting> meetings, @NonNull Map<Room, Boolean> selectedRooms, @NonNull Map<LocalTime, Boolean> selectedHours) {
+    private Map<LocalTime, Boolean> hoursDistribution() {
+        Map<LocalTime, Boolean> hours = new HashMap<>();
+        for (int hour = 6; hour <= 22; hour++) {
+            hours.put(LocalTime.of(hour, 0), false);
+        }
+        return hours;
+    }
+    private List<Meeting> filterMeetings(
+        @NonNull List<Meeting> meetings,
+        @NonNull Map<LocalTime, Boolean> localTimeBooleanMap
+    ) {
         List<Meeting> filteredMeetings = new ArrayList<>();
 
-        if (meetings == null) {
-            return filteredMeetings;
-        }
+        if (meetings == null) {return filteredMeetings;}
 
         for (Meeting meeting : meetings) {
+            for (Map.Entry<LocalTime, Boolean> mapHourEntry : localTimeBooleanMap.entrySet()){
+                LocalTime hour = mapHourEntry.getKey();
+                boolean selectedStatus = mapHourEntry.getValue();
 
-            boolean atLeastOneRoomIsSelected = false;
-            boolean meetingRoomMatches = false;
-            boolean atLeastOneHourIsSelected = false;
-            boolean meetingHourMatches = false;
-
-            for (Map.Entry<Room, Boolean> roomEntry : selectedRooms.entrySet()) {
-                Room room = roomEntry.getKey();
-                boolean isRoomSelected = roomEntry.getValue();
-
-                if (isRoomSelected) {
-                    atLeastOneRoomIsSelected = true;
+                if (meeting.getTime().equals(hour)) {
+                    filteredMeetings.add(meeting);
                 }
-
-                if (room == meeting.getRoom()) {
-                    meetingRoomMatches = isRoomSelected;
-                }
-            }
-
-            for (Map.Entry<LocalTime, Boolean> hourEntry : selectedHours.entrySet()) {
-                LocalTime time = hourEntry.getKey();
-                boolean isTimeSelected = hourEntry.getValue();
-
-                if (isTimeSelected) {
-                    atLeastOneHourIsSelected = true;
-                }
-
-                if (meeting.getTime().equals(time)
-                    || (meeting.getTime().isAfter(time) && meeting.getTime().isBefore(time.plusHours(1)))) {
-                    meetingHourMatches = isTimeSelected;
-                }
-            }
-
-            if (!atLeastOneRoomIsSelected) {
-                meetingRoomMatches = true;
-            }
-
-            if (!atLeastOneHourIsSelected) {
-                meetingHourMatches = true;
-            }
-
-            if (meetingRoomMatches && meetingHourMatches) {
-                filteredMeetings.add(meeting);
             }
         }
-
         return filteredMeetings;
+    }
+
+    private List<HourFilterItemStateView> getHourFilterItemStateView(@NonNull Map<LocalTime, Boolean> localTimeBooleanMap) {
+        List<HourFilterItemStateView> hourFilterItemStateViews = new ArrayList<>();
+
+        for (Map.Entry<LocalTime, Boolean> hours : localTimeBooleanMap.entrySet()) {
+            LocalTime time = hours.getKey();
+            boolean selectedStatus = hours.getValue();
+
+            @ColorRes
+            int colorText;
+
+            if (selectedStatus) {
+                colorText = android.R.color.holo_red_dark;
+            } else {
+                colorText = android.R.color.white;
+            }
+
+            hourFilterItemStateViews.add(
+                new HourFilterItemStateView(
+                    time,
+                    colorText
+                )
+            );
+        }
+
+        return hourFilterItemStateViews;
     }
 
     public LiveData<List<MeetingsViewStateItem>> getMeetingLiveData() {
@@ -178,20 +171,5 @@ public class MeetingsViewModel extends ViewModel {
             }
             return meetingsViewStateItems;
         });
-    }
-
-    @NonNull
-    private MeetingsViewStateItem mapMeeting(@NonNull Meeting meeting) {
-        return new MeetingsViewStateItem(
-            meeting.getId(),
-            meeting.getRoom().getIcon(),
-            resources.getString(
-                R.string.meeting_title,
-                meeting.getTopic(),
-                DateTimeFormatter.ofPattern("HH:mm").format(meeting.getTime()),
-                resources.getString(meeting.getRoom().getStringResName())
-            ),
-            stringifyParticipants(meeting.getParticipants())
-        );
     }
 }

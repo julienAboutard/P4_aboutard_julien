@@ -14,11 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.maru.filter.HourFilterAdapter;
+import com.example.maru.filter.OnHourSelectedListener;
 import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetingdetail.MeetingDetailActivity;
 import com.example.maru.meetinglist.MeetingsAdapter;
 import com.example.maru.meetinglist.OnMeetingClickedListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.time.LocalTime;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +58,12 @@ public class MainActivity extends AppCompatActivity {
             adapter.submitList(meetings);
         });
 
-        final HourFilterAdapter hourAdapter = new HourFilterAdapter();
+        final HourFilterAdapter hourAdapter = new HourFilterAdapter(new OnHourSelectedListener() {
+            @Override
+            public void onHourSelected(@NonNull LocalTime hour) {
+
+            }
+        });
         RecyclerView hourFilterRecyclerView = findViewById(R.id.hour_filter_rv);
         hourFilterRecyclerView.setAdapter(hourAdapter);
 

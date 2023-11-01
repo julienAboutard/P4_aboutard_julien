@@ -13,15 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
 
-public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, HourFilterAdapter.ViewHolder> {
+import java.util.Locale;
 
-    /*@NonNull
-    private final OnHourSelectedListener listener;*/
+public class HourFilterAdapter extends ListAdapter<HourFilterItemStateView, HourFilterAdapter.ViewHolder> {
 
-    public HourFilterAdapter() {
+    @NonNull
+    private final OnHourSelectedListener listener;
+
+    public HourFilterAdapter(@NonNull OnHourSelectedListener listener) {
         super(new HourFilterAdapterDiffCallback());
 
-        //this.listener = listener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,7 +34,7 @@ public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, Hour
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), listener);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,20 +47,24 @@ public class HourFilterAdapter extends ListAdapter<HourFilterItemViewState, Hour
             textViewHour = itemView.findViewById(R.id.hour_item_textview);
         }
 
-        public void bind(@NonNull final HourFilterItemViewState item) {
-            textViewHour.setText(item.getHour());
-            //textViewHour.setOnClickListener(v -> listener.onHourSelected(item.getHourLocalTime()));
+        public void bind(@NonNull final HourFilterItemStateView item, @NonNull OnHourSelectedListener listener) {
+            textViewHour.setText(String.format(
+                Locale.getDefault(),
+                "%02d:%02d",
+                item.getHourLocalTime().getHour(),
+                item.getHourLocalTime().getMinute()));
+            textViewHour.setOnClickListener(v -> listener.onHourSelected(item.getHourLocalTime()));
         }
     }
 
-    private static class HourFilterAdapterDiffCallback extends DiffUtil.ItemCallback<HourFilterItemViewState> {
+    private static class HourFilterAdapterDiffCallback extends DiffUtil.ItemCallback<HourFilterItemStateView> {
         @Override
-        public boolean areItemsTheSame(@NonNull HourFilterItemViewState oldItem, @NonNull HourFilterItemViewState newItem) {
-            return oldItem.getHour().equals(newItem.getHour());
+        public boolean areItemsTheSame(@NonNull HourFilterItemStateView oldItem, @NonNull HourFilterItemStateView newItem) {
+            return oldItem.getHourLocalTime().equals(newItem.getHourLocalTime());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull HourFilterItemViewState oldItem, @NonNull HourFilterItemViewState newItem) {
+        public boolean areContentsTheSame(@NonNull HourFilterItemStateView oldItem, @NonNull HourFilterItemStateView newItem) {
             return oldItem.equals(newItem);
         }
     }
