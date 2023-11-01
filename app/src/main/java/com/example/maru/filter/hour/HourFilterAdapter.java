@@ -1,4 +1,4 @@
-package com.example.maru.filter;
+package com.example.maru.filter.hour;
 
 
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +16,7 @@ import com.example.maru.R;
 
 import java.util.Locale;
 
-public class HourFilterAdapter extends ListAdapter<HourFilterItemStateView, HourFilterAdapter.ViewHolder> {
+public class HourFilterAdapter extends ListAdapter<HourFilterViewStateItem, HourFilterAdapter.ViewHolder> {
 
     @NonNull
     private final OnHourSelectedListener listener;
@@ -47,24 +48,25 @@ public class HourFilterAdapter extends ListAdapter<HourFilterItemStateView, Hour
             textViewHour = itemView.findViewById(R.id.hour_item_textview);
         }
 
-        public void bind(@NonNull final HourFilterItemStateView item, @NonNull OnHourSelectedListener listener) {
+        public void bind(@NonNull final HourFilterViewStateItem item, @NonNull OnHourSelectedListener listener) {
             textViewHour.setText(String.format(
                 Locale.getDefault(),
                 "%02d:%02d",
                 item.getHourLocalTime().getHour(),
                 item.getHourLocalTime().getMinute()));
+            textViewHour.setTextColor(ContextCompat.getColor(textViewHour.getContext(), item.getColorText()));
             textViewHour.setOnClickListener(v -> listener.onHourSelected(item.getHourLocalTime()));
         }
     }
 
-    private static class HourFilterAdapterDiffCallback extends DiffUtil.ItemCallback<HourFilterItemStateView> {
+    private static class HourFilterAdapterDiffCallback extends DiffUtil.ItemCallback<HourFilterViewStateItem> {
         @Override
-        public boolean areItemsTheSame(@NonNull HourFilterItemStateView oldItem, @NonNull HourFilterItemStateView newItem) {
+        public boolean areItemsTheSame(@NonNull HourFilterViewStateItem oldItem, @NonNull HourFilterViewStateItem newItem) {
             return oldItem.getHourLocalTime().equals(newItem.getHourLocalTime());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull HourFilterItemStateView oldItem, @NonNull HourFilterItemStateView newItem) {
+        public boolean areContentsTheSame(@NonNull HourFilterViewStateItem oldItem, @NonNull HourFilterViewStateItem newItem) {
             return oldItem.equals(newItem);
         }
     }

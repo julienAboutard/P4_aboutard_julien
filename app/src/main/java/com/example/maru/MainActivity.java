@@ -13,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.maru.filter.HourFilterAdapter;
-import com.example.maru.filter.OnHourSelectedListener;
+import com.example.maru.filter.hour.HourFilterAdapter;
+import com.example.maru.filter.hour.OnHourSelectedListener;
 import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetingdetail.MeetingDetailActivity;
 import com.example.maru.meetinglist.MeetingsAdapter;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         MeetingsViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MeetingsViewModel.class);
         RecyclerView mettingRecyclerView = findViewById(R.id.meeting_rv);
         mettingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MeetingsAdapter adapter = new MeetingsAdapter(new OnMeetingClickedListener() {
+        MeetingsAdapter meetingsAdapter = new MeetingsAdapter(new OnMeetingClickedListener() {
 
             @Override
             public void onMeetingClicked(long meetingId) {
@@ -53,19 +53,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mettingRecyclerView.setAdapter(adapter);
-        viewModel.getMeetingLiveData().observe(this, meetings -> {
-            adapter.submitList(meetings);
-        });
+        mettingRecyclerView.setAdapter(meetingsAdapter);
 
         final HourFilterAdapter hourAdapter = new HourFilterAdapter(new OnHourSelectedListener() {
             @Override
             public void onHourSelected(@NonNull LocalTime hour) {
-
+                    viewModel.onHourSelected(hour);
             }
         });
         RecyclerView hourFilterRecyclerView = findViewById(R.id.hour_filter_rv);
         hourFilterRecyclerView.setAdapter(hourAdapter);
+
+        viewModel.getListFilterMeetings().observe(this, viewState -> {
+            meetingsAdapter.submitList(viewState.getMeetingsViewStateItems());
+            hourAdapter.submitList(viewState.getHourFilterItemViewStates());
+        });
 
     }
 
@@ -73,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,4 +103,5 @@ public class MainActivity extends AppCompatActivity {
             view.setVisibility(View.VISIBLE);
         }
     }
+
 }

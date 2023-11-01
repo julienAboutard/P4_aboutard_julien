@@ -1,4 +1,4 @@
-package com.example.maru.filter;
+package com.example.maru.filter.hour;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class HourFilterItemStateView {
+public class HourFilterViewStateItem {
 
     @NonNull
     private final LocalTime hourLocalTime;
@@ -14,7 +14,7 @@ public class HourFilterItemStateView {
     @ColorRes
     private final int colorText;
 
-    public HourFilterItemStateView(@NonNull LocalTime hourLocalTime, int colorText) {
+    public HourFilterViewStateItem(@NonNull LocalTime hourLocalTime, int colorText) {
         this.hourLocalTime = hourLocalTime;
         this.colorText = colorText;
     }
@@ -42,8 +42,8 @@ public class HourFilterItemStateView {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HourFilterItemStateView that = (HourFilterItemStateView) o;
-        return colorText == that.colorText && hourLocalTime.equals(that.hourLocalTime) && hour.equals(that.hour);
+        HourFilterViewStateItem that = (HourFilterViewStateItem) o;
+        return colorText == that.colorText && hourLocalTime.equals(that.hourLocalTime);
     }
 
     @Override

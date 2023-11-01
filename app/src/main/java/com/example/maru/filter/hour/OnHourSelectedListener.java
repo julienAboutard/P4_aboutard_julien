@@ -1,4 +1,4 @@
-package com.example.maru.filter;
+package com.example.maru.filter.hour;
 
 import androidx.annotation.NonNull;
 
