@@ -67,7 +67,7 @@ public class HourFilterAdapter extends ListAdapter<HourFilterViewStateItem, Hour
 
         @Override
         public boolean areContentsTheSame(@NonNull HourFilterViewStateItem oldItem, @NonNull HourFilterViewStateItem newItem) {
-            return oldItem.equals(newItem);
+            return oldItem.getColorText() == newItem.getColorText();
         }
     }
 }

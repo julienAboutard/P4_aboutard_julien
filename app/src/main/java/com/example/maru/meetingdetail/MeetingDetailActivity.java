@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
 import com.example.maru.ViewModelFactory;
 import com.example.maru.databinding.DetailmeetingActivityBinding;
+
+import java.util.Locale;
 
 public class MeetingDetailActivity extends AppCompatActivity {
 

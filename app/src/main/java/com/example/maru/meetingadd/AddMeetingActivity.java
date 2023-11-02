@@ -19,9 +19,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.maru.R;
 import com.example.maru.ViewModelFactory;
 import com.example.maru.data.Room;
+import com.example.maru.meetingadd.spinner.SpinnerAdapter;
+import com.example.maru.meetingadd.spinner.SpinnerItem;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class AddMeetingActivity extends AppCompatActivity {
@@ -32,6 +35,8 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private TextInputEditText timeEditText;
 
+    private ArrayList<SpinnerItem> spinnerItemArrayList = new ArrayList<>();
+
     private LocalTime time = LocalTime.now();
 
     @Override
@@ -40,18 +45,20 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         setContentView(R.layout.addmeeting_activity);
         initToolbar();
+        initSpinner();
 
         AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
 
-        Spinner mySpinner = findViewById(R.id.spinner_room_name);
-        mySpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Room.values()));
+        Spinner mySpinner = findViewById(R.id.spinner_room);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, spinnerItemArrayList);
+        mySpinner.setAdapter(adapter);
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Room room = (Room) parent.getItemAtPosition(position);
+                SpinnerItem spinnerItem = (SpinnerItem) parent.getItemAtPosition(position);
 
-                viewModel.onRoomSelected(room);
+                viewModel.onRoomSelected(spinnerItem.getRoom());
             }
 
             @Override
@@ -104,5 +111,11 @@ public class AddMeetingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initSpinner() {
+        for (Room room : Room.values()) {
+            spinnerItemArrayList.add(new SpinnerItem(room));
+        }
     }
 }

@@ -15,8 +15,11 @@ import android.view.View;
 
 import com.example.maru.R;
 import com.example.maru.ViewModelFactory;
+import com.example.maru.data.Room;
 import com.example.maru.filter.hour.HourFilterAdapter;
 import com.example.maru.filter.hour.OnHourSelectedListener;
+import com.example.maru.filter.room.OnRoomSelectedListener;
+import com.example.maru.filter.room.RoomFilterAdapter;
 import com.example.maru.meetingadd.AddMeetingActivity;
 import com.example.maru.meetingdetail.MeetingDetailActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,18 +58,18 @@ public class MeetingsActivity extends AppCompatActivity {
 
         mettingRecyclerView.setAdapter(meetingsAdapter);
 
-        final HourFilterAdapter hourAdapter = new HourFilterAdapter(new OnHourSelectedListener() {
-            @Override
-            public void onHourSelected(@NonNull LocalTime hour) {
-                    viewModel.onHourSelected(hour);
-            }
-        });
+        final HourFilterAdapter hourAdapter = new HourFilterAdapter(hour -> viewModel.onHourSelected(hour));
         RecyclerView hourFilterRecyclerView = findViewById(R.id.hour_filter_rv);
         hourFilterRecyclerView.setAdapter(hourAdapter);
 
+        final RoomFilterAdapter roomAdapter = new RoomFilterAdapter(room -> viewModel.onRoomSelected(room));
+        RecyclerView roomFilterRecyclerView = findViewById(R.id.room_filter_rv);
+        roomFilterRecyclerView.setAdapter(roomAdapter);
+
         viewModel.getListFilterMeetings().observe(this, viewState -> {
             meetingsAdapter.submitList(viewState.getMeetingsViewStateItems());
-            hourAdapter.submitList(viewState.getHourFilterItemViewStates());
+            hourAdapter.submitList(viewState.getHourFilterViewStateItems());
+            roomAdapter.submitList(viewState.getRoomFilterViewStateItems());
         });
 
     }

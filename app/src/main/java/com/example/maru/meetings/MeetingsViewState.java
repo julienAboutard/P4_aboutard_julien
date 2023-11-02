@@ -1,6 +1,7 @@
 package com.example.maru.meetings;
 
 import com.example.maru.filter.hour.HourFilterViewStateItem;
+import com.example.maru.filter.room.RoomFilterViewStateItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,17 +12,24 @@ public class MeetingsViewState {
 
     private final List<HourFilterViewStateItem> hourFilterViewStateItems;
 
-    public MeetingsViewState(List<MeetingsViewStateItem> meetingsViewStateItems, List<HourFilterViewStateItem> hourFilterViewStateItems) {
+    private final  List<RoomFilterViewStateItem> roomFilterViewStateItems;
+
+    public MeetingsViewState(List<MeetingsViewStateItem> meetingsViewStateItems, List<HourFilterViewStateItem> hourFilterViewStateItems, List<RoomFilterViewStateItem> roomFilterViewStateItems) {
         this.meetingsViewStateItems = meetingsViewStateItems;
         this.hourFilterViewStateItems = hourFilterViewStateItems;
+        this.roomFilterViewStateItems = roomFilterViewStateItems;
     }
 
     public List<MeetingsViewStateItem> getMeetingsViewStateItems() {
         return meetingsViewStateItems;
     }
 
-    public List<HourFilterViewStateItem> getHourFilterItemViewStates() {
+    public List<HourFilterViewStateItem> getHourFilterViewStateItems() {
         return hourFilterViewStateItems;
+    }
+
+    public List<RoomFilterViewStateItem> getRoomFilterViewStateItems() {
+        return roomFilterViewStateItems;
     }
 
     @Override
@@ -29,19 +37,20 @@ public class MeetingsViewState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MeetingsViewState that = (MeetingsViewState) o;
-        return meetingsViewStateItems.equals(that.meetingsViewStateItems) && hourFilterViewStateItems.equals(that.hourFilterViewStateItems);
+        return Objects.equals(meetingsViewStateItems, that.meetingsViewStateItems) && Objects.equals(hourFilterViewStateItems, that.hourFilterViewStateItems) && Objects.equals(roomFilterViewStateItems, that.roomFilterViewStateItems);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(meetingsViewStateItems, hourFilterViewStateItems);
+        return Objects.hash(meetingsViewStateItems, hourFilterViewStateItems, roomFilterViewStateItems);
     }
 
     @Override
     public String toString() {
-        return "MeetingViewState{" +
+        return "MeetingsViewState{" +
             "meetingsViewStateItems=" + meetingsViewStateItems +
-            ", hourFilterItemViewStates=" + hourFilterViewStateItems +
+            ", hourFilterViewStateItems=" + hourFilterViewStateItems +
+            ", roomFilterViewStateItems=" + roomFilterViewStateItems +
             '}';
     }
 }

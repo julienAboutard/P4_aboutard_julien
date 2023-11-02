@@ -4,7 +4,8 @@
     android:id="@+id/hour_item_textview"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_margin="4dp"
+    android:textSize="18sp"
     android:text="@string/hour_filter"
     tools:text="@sample/hours.json/data/hour">
 

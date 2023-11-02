@@ -1,8 +1,11 @@
 package com.example.maru.data;
 
-import static com.example.maru.data.Room.Lucina;
+import static com.example.maru.data.Room.CHROM;
+import static com.example.maru.data.Room.IKE;
+import static com.example.maru.data.Room.LUCINA;
+import static com.example.maru.data.Room.MARTH;
 import static com.example.maru.data.Room.ROY;
-import static com.example.maru.data.Room.Robin;
+import static com.example.maru.data.Room.ROBIN;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -82,9 +85,11 @@ public class MeetingRepository {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        addMeeting(Lucina, LocalTime.parse("16:00"), "Aphrodite", "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr");
-        addMeeting(Robin, LocalTime.parse("14:00"), "Astarté", "brahma@test.fr, thot@test.fr, ra@test.fr");
-        addMeeting(ROY, LocalTime.parse("10:00"), "Enfer", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr");
+        addMeeting(LUCINA, LocalTime.parse("16:00"), "Aphrodite", "thor@test.fr, jord@test.fr, vishnu@test.fr, shiva@test.fr");
+        addMeeting(IKE, LocalTime.parse("14:00"), "Astarté", "brahma@test.fr, thot@test.fr, ra@test.fr");
+        addMeeting(ROBIN, LocalTime.parse("10:00"), "Enfer", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr");
+        addMeeting(MARTH, LocalTime.parse("09:30"), "Paradis", "dieu@test.fr, vishuna@test.fr");
+        addMeeting(CHROM, LocalTime.parse("16:30"), "Forge", "ephaistos@test.fr");
     }
 
 }

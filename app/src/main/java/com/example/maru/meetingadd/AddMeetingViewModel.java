@@ -20,7 +20,7 @@ public class AddMeetingViewModel extends ViewModel {
 
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
 
-    private Room selectedRoom = Room.ROY;
+    private Room selectedRoom;
     private LocalTime selectedTime = LocalTime.now();
 
     public AddMeetingViewModel(@NonNull MeetingRepository meetingRepository) {
