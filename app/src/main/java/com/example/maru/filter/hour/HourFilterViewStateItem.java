@@ -30,6 +30,7 @@ public class HourFilterViewStateItem {
         return colorText;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "HourFilterItemStateView{" +

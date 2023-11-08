@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:maxWidth="488dp"
     tools:context=".meetingadd.AddMeetingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -25,7 +26,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +53,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/topic"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
@@ -66,7 +68,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_topic_add_til"
-                    tools:listitem="@layout/spinner_room_layout_ressource"/>
+                    tools:listitem="@layout/spinner_room_layout_ressource" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/meeting_time_add_til"

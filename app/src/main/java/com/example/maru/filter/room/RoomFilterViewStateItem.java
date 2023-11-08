@@ -40,6 +40,7 @@ public class RoomFilterViewStateItem {
         return Objects.hash(room, selectedStatus);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "RoomFilterViewStateItem{" +

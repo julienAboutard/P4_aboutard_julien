@@ -3,7 +3,6 @@ package com.example.maru.filter.room;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -12,8 +11,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
-import com.example.maru.databinding.HourItemBinding;
-import com.example.maru.databinding.RoomItemBinding;
 import com.google.android.material.chip.Chip;
 
 

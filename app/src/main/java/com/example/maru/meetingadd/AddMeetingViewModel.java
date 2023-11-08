@@ -1,8 +1,6 @@
 package com.example.maru.meetingadd;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.maru.data.MeetingRepository;
@@ -16,8 +14,6 @@ public class AddMeetingViewModel extends ViewModel {
     @NonNull
     private final MeetingRepository meetingRepository;
 
-    private final MutableLiveData<Boolean> isSaveButtonEnabledMutableLiveData = new MutableLiveData<>(false);
-
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
 
     private Room selectedRoom;
@@ -27,18 +23,12 @@ public class AddMeetingViewModel extends ViewModel {
         this.meetingRepository = meetingRepository;
     }
 
-    public LiveData<Boolean> getIsSaveButtonEnabledLiveData() {
-        return isSaveButtonEnabledMutableLiveData;
-    }
-
     public SingleLiveEvent<Void> getCloseActivitySingleLiveEvent() {
         return closeActivitySingleLiveEvent;
     }
 
     public void onAddButtonClicked(@NonNull String topic, @NonNull String mailList) {
-        // Add neighbour to the repository...
         meetingRepository.addMeeting(selectedRoom, selectedTime, topic, mailList);
-        // ... and close the Activity !
         closeActivitySingleLiveEvent.call();
     }
 

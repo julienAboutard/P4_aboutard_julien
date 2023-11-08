@@ -4,7 +4,7 @@ import com.example.maru.data.Room;
 
 public class SpinnerItem {
 
-    private Room room;
+    private final Room room;
 
     public SpinnerItem(Room room) {
         this.room = room;

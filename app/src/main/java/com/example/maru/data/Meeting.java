@@ -58,7 +58,7 @@ public class Meeting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meeting meeting = (Meeting) o;
-        return id == meeting.id && room == meeting.room && time == meeting.time && topic == meeting.topic && mail_list == meeting.mail_list;
+        return id == meeting.id && room.equals(meeting.room) && time.equals(meeting.time) && topic.equals(meeting.topic) && mail_list.equals(meeting.mail_list);
     }
 
     @Override

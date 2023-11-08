@@ -13,12 +13,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
 import com.example.maru.databinding.MeetingItemBinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem, MeetingsAdapter.ViewHolder> {
 
-    List<MeetingsViewStateItem> meetings = new ArrayList<>();
     private final OnMeetingClickedListener listener;
 
     public MeetingsAdapter(OnMeetingClickedListener listener) {
@@ -52,20 +48,20 @@ public class MeetingsAdapter extends ListAdapter<MeetingsViewStateItem, Meetings
 
         public void bind(MeetingsViewStateItem item, OnMeetingClickedListener listener) {
             itemView.setOnClickListener(v -> listener.onMeetingClicked(item.getId()));
-            Glide.with(binding.roomImage)
+            Glide.with(binding.meetingItemRoomIcon)
                 .load(item.getRoom().getIcon())
                 .apply(RequestOptions.circleCropTransform())
-                .into(binding.roomImage);
-            binding.meetingTopic.setText(
-                binding.meetingTopic.getContext().getString(
+                .into(binding.meetingItemRoomIcon);
+            binding.meetingItemTopicTimeRoom.setText(
+                binding.meetingItemTopicTimeRoom.getContext().getString(
                     R.string.meeting_quick_detail,
                     item.getTopic(),
-                    binding.meetingTopic.getContext().getString(R.string.time_format, item.getTime().getHour(), item.getTime().getMinute()),
-                    binding.meetingTopic.getContext().getString(item.getRoom().getName())
+                    binding.meetingItemTopicTimeRoom.getContext().getString(R.string.time_format, item.getTime().getHour(), item.getTime().getMinute()),
+                    binding.meetingItemTopicTimeRoom.getContext().getString(item.getRoom().getName())
                 )
             );
 
-            binding.meetingAttendee.setText(item.getMail_list());
+            binding.meetingItemAttendee.setText(item.getMail_list());
             binding.deleteIcon.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));
         }
     }

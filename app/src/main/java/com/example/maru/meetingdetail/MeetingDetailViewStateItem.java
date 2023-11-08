@@ -63,6 +63,7 @@ public class MeetingDetailViewStateItem {
         return Objects.hash(room, time, topic, mailList);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "MeetingDetailViewStateItem{" +

@@ -44,7 +44,7 @@ public class MeetingRepository {
         meetingLiveData.setValue(meetings);
     }
 
-    public void deleteNeighbour(long meetingId) {
+    public void deleteMeeting(long meetingId) {
         List<Meeting> meetings = meetingLiveData.getValue();
 
         if (meetings == null) {
@@ -89,7 +89,7 @@ public class MeetingRepository {
         addMeeting(IKE, LocalTime.parse("14:00"), "Astarté", "brahma@test.fr, thot@test.fr, ra@test.fr");
         addMeeting(ROBIN, LocalTime.parse("10:00"), "Enfer", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr");
         addMeeting(MARTH, LocalTime.parse("09:30"), "Paradis", "dieu@test.fr, vishuna@test.fr");
-        addMeeting(CHROM, LocalTime.parse("16:30"), "Forge", "ephaistos@test.fr");
+        addMeeting(CHROM, LocalTime.parse("16:45"), "Forge", "ephaistos@test.fr");
     }
 
 }

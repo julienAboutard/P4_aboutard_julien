@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import androidx.appcompat.widget.Toolbar;
@@ -35,7 +34,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private TextInputEditText timeEditText;
 
-    private ArrayList<SpinnerItem> spinnerItemArrayList = new ArrayList<>();
+    private final ArrayList<SpinnerItem> spinnerItemArrayList = new ArrayList<>();
 
     private LocalTime time = LocalTime.now();
 

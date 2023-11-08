@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.maru.data.Meeting;
@@ -57,8 +56,8 @@ public class MeetingsViewModel extends ViewModel {
         );
     }
 
-    public void onDeleteMeetingClicked(long neighbourId) {
-        meetingRepository.deleteNeighbour(neighbourId);
+    public void onDeleteMeetingClicked(long meetingId) {
+        meetingRepository.deleteMeeting(meetingId);
     }
 
     public MediatorLiveData<MeetingsViewState> getListFilterMeetings() {
@@ -93,6 +92,7 @@ public class MeetingsViewModel extends ViewModel {
                 meetingsViewStateItems,
                 hourFilterViewStateItems,
                 roomFilterViewStateItems));
+
     }
 
     private Map<LocalTime, Boolean> getHoursDistribution() {
@@ -164,9 +164,12 @@ public class MeetingsViewModel extends ViewModel {
         return filteredMeetings;
     }
 
-    private List<HourFilterViewStateItem> getHourFilterItemStateView(@NonNull Map<LocalTime, Boolean> localTimeBooleanMap) {
+    private List<HourFilterViewStateItem> getHourFilterItemStateView(@Nullable Map<LocalTime, Boolean> localTimeBooleanMap) {
         List<HourFilterViewStateItem> hourFilterViewStateItems = new ArrayList<>();
 
+        if (localTimeBooleanMap == null) {
+            throw new IllegalStateException("localTimeBooleanMap must be initialized !");
+        }
         for (Map.Entry<LocalTime, Boolean> hours : localTimeBooleanMap.entrySet()) {
             LocalTime time = hours.getKey();
             boolean selectedStatus = hours.getValue();
@@ -185,8 +188,12 @@ public class MeetingsViewModel extends ViewModel {
         return hourFilterViewStateItems;
     }
 
-    private List<RoomFilterViewStateItem> getRoomFilterItemStateView(@NonNull Map<Room, Boolean> roomBooleanMap) {
+    private List<RoomFilterViewStateItem> getRoomFilterItemStateView(@Nullable Map<Room, Boolean> roomBooleanMap) {
         List<RoomFilterViewStateItem> roomFilterViewStateItems = new ArrayList<>();
+
+        if (roomBooleanMap == null) {
+            throw new IllegalStateException("roomBooleanMap must be initialized !");
+        }
 
         for (Map.Entry<Room, Boolean> mapRoomEntry : roomBooleanMap.entrySet()) {
             Room room = mapRoomEntry.getKey();

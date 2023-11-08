@@ -1,5 +1,7 @@
 package com.example.maru.meetings;
 
+import androidx.annotation.NonNull;
+
 import com.example.maru.filter.hour.HourFilterViewStateItem;
 import com.example.maru.filter.room.RoomFilterViewStateItem;
 
@@ -8,13 +10,19 @@ import java.util.Objects;
 
 public class MeetingsViewState {
 
+    @NonNull
     private final List<MeetingsViewStateItem> meetingsViewStateItems;
 
+    @NonNull
     private final List<HourFilterViewStateItem> hourFilterViewStateItems;
 
-    private final  List<RoomFilterViewStateItem> roomFilterViewStateItems;
+    @NonNull
+    private final List<RoomFilterViewStateItem> roomFilterViewStateItems;
 
-    public MeetingsViewState(List<MeetingsViewStateItem> meetingsViewStateItems, List<HourFilterViewStateItem> hourFilterViewStateItems, List<RoomFilterViewStateItem> roomFilterViewStateItems) {
+    public MeetingsViewState(
+        @NonNull List<MeetingsViewStateItem> meetingsViewStateItems,
+        @NonNull List<HourFilterViewStateItem> hourFilterViewStateItems,
+        @NonNull List<RoomFilterViewStateItem> roomFilterViewStateItems) {
         this.meetingsViewStateItems = meetingsViewStateItems;
         this.hourFilterViewStateItems = hourFilterViewStateItems;
         this.roomFilterViewStateItems = roomFilterViewStateItems;
@@ -45,6 +53,7 @@ public class MeetingsViewState {
         return Objects.hash(meetingsViewStateItems, hourFilterViewStateItems, roomFilterViewStateItems);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "MeetingsViewState{" +
@@ -53,4 +62,5 @@ public class MeetingsViewState {
             ", roomFilterViewStateItems=" + roomFilterViewStateItems +
             '}';
     }
+
 }
