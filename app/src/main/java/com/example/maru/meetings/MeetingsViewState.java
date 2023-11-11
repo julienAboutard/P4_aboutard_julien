@@ -28,14 +28,17 @@ public class MeetingsViewState {
         this.roomFilterViewStateItems = roomFilterViewStateItems;
     }
 
+    @NonNull
     public List<MeetingsViewStateItem> getMeetingsViewStateItems() {
         return meetingsViewStateItems;
     }
 
+    @NonNull
     public List<HourFilterViewStateItem> getHourFilterViewStateItems() {
         return hourFilterViewStateItems;
     }
 
+    @NonNull
     public List<RoomFilterViewStateItem> getRoomFilterViewStateItems() {
         return roomFilterViewStateItems;
     }

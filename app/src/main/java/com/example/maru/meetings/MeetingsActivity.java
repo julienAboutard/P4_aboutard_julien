@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MeetingsActivity extends AppCompatActivity {
 
-
+    private MeetingsViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class MeetingsActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> startActivities(new Intent[]{AddMeetingActivity.navigate(this)}));
 
 
-        MeetingsViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MeetingsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MeetingsViewModel.class);
         RecyclerView mettingRecyclerView = findViewById(R.id.meeting_rv);
         mettingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         MeetingsAdapter meetingsAdapter = new MeetingsAdapter(new OnMeetingClickedListener() {
@@ -69,10 +69,7 @@ public class MeetingsActivity extends AppCompatActivity {
 
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,6 +91,11 @@ public class MeetingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
     private void setVisibility(@NonNull View view) {
         if (view.getVisibility() == View.VISIBLE) {
             view.setVisibility(View.GONE);
@@ -101,5 +103,6 @@ public class MeetingsActivity extends AppCompatActivity {
             view.setVisibility(View.VISIBLE);
         }
     }
+
 
 }

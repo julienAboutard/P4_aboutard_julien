@@ -19,6 +19,7 @@ import com.example.maru.data.Room;
 import com.example.maru.meetings.MeetingsActivity;
 import com.example.maru.utils.DrawableMatcher;
 import com.example.maru.utils.MyViewAction;
+import com.example.maru.utils.RecyclerViewItemAssertion;
 import com.example.maru.utils.RecyclerViewItemCountAssertion;
 
 import org.junit.After;
@@ -59,6 +60,7 @@ public class MeetingsActivityTest {
 
     private MeetingsActivity meetingsTest;
 
+
     @Before
     public void setUp() {
         ActivityScenario<MeetingsActivity> activityScenario = ActivityScenario.launch(MeetingsActivity.class);
@@ -72,14 +74,21 @@ public class MeetingsActivityTest {
 
     @Test
     public void addDeleteFilterMeeting() throws InterruptedException {
+
+        // Delete All Meetings from generate Meetings for Debug Mode
+        deleteAllMeetings();
+
         // Add Meeting
         addMeeting(FIRST_TOPIC, FIRST_MAIL_LIST, FIRST_ROOM, FIRST_TIME);
+
         assertItemDetailAtPosition(0, FIRST_TOPIC, FIRST_MAIL_LIST, FIRST_ROOM, FIRST_TIME);
+        assertItemInRecyclerView(0, FIRST_TOPIC, FIRST_MAIL_LIST, FIRST_ROOM, FIRST_TIME);
 
         onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(1));
 
         addMeeting(SECOND_TOPIC, SECOND_MAIL_LIST, SECOND_ROOM, SECOND_TIME);
         assertItemDetailAtPosition(1, SECOND_TOPIC, SECOND_MAIL_LIST, SECOND_ROOM, SECOND_TIME);
+        assertItemInRecyclerView(1, SECOND_TOPIC, SECOND_MAIL_LIST, SECOND_ROOM, SECOND_TIME);
 
         onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(2));
 
@@ -88,6 +97,7 @@ public class MeetingsActivityTest {
 
         onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(1));
         assertItemDetailAtPosition(0, SECOND_TOPIC, SECOND_MAIL_LIST, SECOND_ROOM, SECOND_TIME);
+        assertItemInRecyclerView(0, SECOND_TOPIC, SECOND_MAIL_LIST, SECOND_ROOM, SECOND_TIME);
 
         // Clean Recycler
         onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
@@ -101,6 +111,8 @@ public class MeetingsActivityTest {
         onView(withId(R.id.room_filter_rv)).perform(actionOnItemAtPosition(1, click()));
 
         assertItemDetailAtPosition(0, THIRD_TOPIC, THIRD_MAIL_LIST, THIRD_ROOM, THIRD_TIME);
+        assertItemInRecyclerView(0, THIRD_TOPIC, THIRD_MAIL_LIST, THIRD_ROOM, THIRD_TIME);
+
         onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(1));
 
         onView(withId(R.id.room_filter_rv)).perform(actionOnItemAtPosition(1, click()));
@@ -113,9 +125,28 @@ public class MeetingsActivityTest {
 
         assertItemDetailAtPosition(0, FIRST_TOPIC, FIRST_MAIL_LIST, FIRST_ROOM, FIRST_TIME);
         assertItemDetailAtPosition(1, FOURTH_TOPIC, FOURTH_MAIL_LIST, FOURTH_ROOM, FOURTH_TIME);
+
+        assertItemInRecyclerView(0, FIRST_TOPIC, FIRST_MAIL_LIST, FIRST_ROOM, FIRST_TIME);
+        assertItemInRecyclerView(1, FOURTH_TOPIC, FOURTH_MAIL_LIST, FOURTH_ROOM, FOURTH_TIME);
         onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(2));
 
+        onView(withId(R.id.hour_filter_rv)).perform(actionOnItemAtPosition(2, click()));
 
+        // Filter Hour and Room
+        addMeeting(FIFTH_TOPIC, FIFTH_MAIL_LIST, FIFTH_ROOM, FIFTH_TIME);
+
+        onView(withId(R.id.room_filter_rv)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.hour_filter_rv)).perform(actionOnItemAtPosition(1, click()));
+
+        assertItemDetailAtPosition(0, FIFTH_TOPIC, FIFTH_MAIL_LIST, FIFTH_ROOM, FIFTH_TIME);
+        assertItemInRecyclerView(0, FIFTH_TOPIC, FIFTH_MAIL_LIST, FIFTH_ROOM, FIFTH_TIME);
+
+        onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(1));
+
+        onView(withId(R.id.room_filter_rv)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.room_filter_rv)).perform(actionOnItemAtPosition(5, click()));
+
+        onView(withId(R.id.meeting_rv)).check(new RecyclerViewItemCountAssertion(0));
     }
 
 
@@ -153,7 +184,7 @@ public class MeetingsActivityTest {
                     )
                 )));
         onView(withId(R.id.meeting_mail_detail)).check(matches(withText(mailList)));
-        //onView(withId(R.id.meeting_room_icon_detail)).check(matches(new DrawableMatcher(room.getIcon())));
+        onView(withId(R.id.meeting_room_name_detail)).check(matches(withText(room.getName())));
         onView(withId(R.id.meeting_time_detail))
             .check(matches(
                 withText(
@@ -166,5 +197,37 @@ public class MeetingsActivityTest {
                 )
             ));
         pressBack();
+    }
+
+    private void assertItemInRecyclerView(
+        int positionOnRecyclerView,
+        @NonNull String topic,
+        @NonNull String mailList,
+        @NonNull Room room,
+        @NonNull LocalTime time
+    ) {
+        onView(withId(R.id.meeting_rv)).check(
+            new RecyclerViewItemAssertion(
+                positionOnRecyclerView,
+                R.id.meeting_item_topic_time_room,
+                withText(topic + " - " + time.toString() + " - " + meetingsTest.getString(room.getName()))
+            )
+        );
+        onView(withId(R.id.meeting_rv)).check(
+            new RecyclerViewItemAssertion(
+                positionOnRecyclerView,
+                R.id.meeting_item_attendee,
+                withText(mailList)
+            )
+        );
+    }
+
+    private void deleteAllMeetings() {
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
     }
 }

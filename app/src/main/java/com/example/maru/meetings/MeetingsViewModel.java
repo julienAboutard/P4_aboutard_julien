@@ -121,11 +121,13 @@ public class MeetingsViewModel extends ViewModel {
 
         List<Meeting> filteredMeetings = new ArrayList<>();
         boolean oneHourSelected = false;
-        boolean hourMatchMeeting = false;
         boolean oneRoomSelected = false;
-        boolean roomMatchMeeting = false;
 
         for (Meeting meeting : meetings) {
+
+            boolean hourMatchMeeting = false;
+            boolean roomMatchMeeting = false;
+
             for (Map.Entry<Room, Boolean> mapRoomEntry : roomBooleanMap.entrySet()) {
                 Room room = mapRoomEntry.getKey();
                 boolean roomSelectedStatus = mapRoomEntry.getValue();
@@ -134,8 +136,8 @@ public class MeetingsViewModel extends ViewModel {
                     oneRoomSelected = true;
                 }
 
-                if (meeting.getRoom().equals(room)) {
-                    roomMatchMeeting = roomSelectedStatus;
+                if (roomSelectedStatus && meeting.getRoom().equals(room)) {
+                    roomMatchMeeting = true;
                 }
             }
 
@@ -147,8 +149,12 @@ public class MeetingsViewModel extends ViewModel {
                     oneHourSelected = true;
                 }
 
-                if (meeting.getTime().equals(hour) || (meeting.getTime().isAfter(hour) && meeting.getTime().isBefore(hour.plusHours(2)))) {
-                    hourMatchMeeting = hourSelectedStatus;
+                if (hourSelectedStatus && (
+                    meeting.getTime().getHour() == hour.getHour() ||
+                        meeting.getTime().getHour() == hour.plusHours(2).minusMinutes(1).getHour() ||
+                        meeting.getTime().isAfter(hour) && meeting.getTime().isBefore(hour.plusHours(2).minusMinutes(1))
+                )) {
+                    hourMatchMeeting = true;
                 }
             }
             if (!oneHourSelected) {
@@ -236,4 +242,5 @@ public class MeetingsViewModel extends ViewModel {
         }
         roomsLiveData.setValue(rooms);
     }
+
 }
