@@ -9,6 +9,10 @@ import org.hamcrest.Matcher;
 
 public class MyViewAction {
 
+    /**
+     * Click on an element of recyclerview item
+     * @param id of recyclerview item
+     */
     public static ViewAction clickChildViewWithId(final int id) {
         return new ViewAction() {
             @Override

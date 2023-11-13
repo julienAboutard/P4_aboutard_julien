@@ -13,6 +13,10 @@ import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.hamcrest.Matcher;
 
+/**
+ * Check if we found in a specified item of a recyclerview
+ * designated elements
+ */
 public class RecyclerViewItemAssertion implements ViewAssertion {
     @IntRange(from = 0)
     private final int position;
@@ -26,6 +30,7 @@ public class RecyclerViewItemAssertion implements ViewAssertion {
         this.position = position;
         this.matcher = matcher;
     }
+
 
     @Override
     public void check(View view, @Nullable NoMatchingViewException noViewFoundException) {

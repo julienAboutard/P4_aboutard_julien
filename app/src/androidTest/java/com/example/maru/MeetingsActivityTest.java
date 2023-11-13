@@ -14,10 +14,8 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.maru.data.MeetingRepository;
 import com.example.maru.data.Room;
 import com.example.maru.meetings.MeetingsActivity;
-import com.example.maru.utils.DrawableMatcher;
 import com.example.maru.utils.MyViewAction;
 import com.example.maru.utils.RecyclerViewItemAssertion;
 import com.example.maru.utils.RecyclerViewItemCountAssertion;
@@ -223,11 +221,11 @@ public class MeetingsActivityTest {
     }
 
     private void deleteAllMeetings() {
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
-        onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        do {
+            onView(withId(R.id.meeting_rv)).perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.delete_icon)));
+        }
+        while (RecyclerViewItemCountAssertion.getCountFromRecyclerView(R.id.meeting_rv) != 0) ;
+
     }
+
 }
