@@ -78,6 +78,13 @@ public class MeetingsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *
+     * @param item The menu item that was selected.
+     * Set visibility on recyclerview for hour and room filter
+     *
+     * @return boolean
+     */
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.room_filter) {

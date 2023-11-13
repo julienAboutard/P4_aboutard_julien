@@ -54,7 +54,7 @@
                 android:layout_marginBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="Mail List"
+                android:text="@string/mail"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/delete_icon"
                 app:layout_constraintStart_toEndOf="@id/meeting_item_room_icon"

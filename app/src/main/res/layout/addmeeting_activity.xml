@@ -53,8 +53,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/topic"
-                        android:inputType="text"
-                        android:textColor="@color/black" />
+                        android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
@@ -88,7 +87,8 @@
                         android:focusable="false"
                         android:hint="@string/time"
                         android:inputType="none"
-                        android:onClick="popTimePicker" />
+                        android:onClick="popTimePicker"
+                        tools:ignore="UsingOnClickInXml" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

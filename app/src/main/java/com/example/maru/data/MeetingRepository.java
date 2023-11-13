@@ -8,7 +8,6 @@ import static com.example.maru.data.Room.ROY;
 import static com.example.maru.data.Room.ROBIN;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -27,7 +26,7 @@ public class MeetingRepository {
     private long maxId = 0;
 
     public MeetingRepository(BuildConfigResolver buildConfigResolver) {
-        // At startup, when creating repo, if we're in debug mode, add random Neighbours
+        // At startup, when creating repo, if we're in debug mode, add random Meetings
         if (buildConfigResolver.isDebug()) {
             generateRandomMeetings();
         }
@@ -81,6 +80,9 @@ public class MeetingRepository {
         });
     }
 
+    /**
+     * Generate somme Meetings to adapt and to dev the application
+     */
     public void generateRandomMeetings() {
         addMeeting(ROY, LocalTime.parse("08:00"), "Asura s'est rendu en enfer pour attaquer Hadès", "adam@test.fr, eve@test.fr, zeus@test.fr, athena@test.fr" +
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +

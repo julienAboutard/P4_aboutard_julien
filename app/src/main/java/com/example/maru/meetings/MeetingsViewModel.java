@@ -64,6 +64,12 @@ public class MeetingsViewModel extends ViewModel {
         return meetingViewStateMediatorLiveData;
     }
 
+    /**
+     * Combine Live Data and filter meeting with these parameters
+     * @param meetings list of meetings in database
+     * @param localTimeBooleanMap map of LocalTime object and boolean
+     * @param roomBooleanMap map of Room object and boolean
+     */
     private void combine(
         @Nullable List<Meeting> meetings,
         @Nullable Map<LocalTime, Boolean> localTimeBooleanMap,
@@ -95,6 +101,13 @@ public class MeetingsViewModel extends ViewModel {
 
     }
 
+    /**
+     * create the distribution of the hours for the filter
+     * Step of 2 to not overload the filter
+     * @return a Map of :
+     * LocalTime object for hours filter to select as key
+     * boolean to selected status as values
+     */
     private Map<LocalTime, Boolean> getHoursDistribution() {
         Map<LocalTime, Boolean> hours = new LinkedHashMap<>();
         for (int hour = 6; hour <= 22; hour += 2) {
@@ -103,6 +116,12 @@ public class MeetingsViewModel extends ViewModel {
         return hours;
     }
 
+    /**
+     * create the distribution of the rooms for the filter
+     * @return a Map of :
+     * Room object for rooms filter to select as key
+     * boolean to selected status as values
+     */
     private Map<Room, Boolean> getRoomsDistribution() {
         Map<Room, Boolean> rooms = new LinkedHashMap<>();
         for (Room room : Room.values()) {
@@ -111,6 +130,13 @@ public class MeetingsViewModel extends ViewModel {
         return rooms;
     }
 
+    /**
+     * Filter the Meetings by hour or/and room selected
+     * @param meetings list of meetings in database
+     * @param localTimeBooleanMap map of LocalTime object and boolean
+     * @param roomBooleanMap map of Room object and boolean
+     * @return a List of Meeting Object filtered or not by the filter selected
+     */
     private List<Meeting> filterMeetings(
         @NonNull List<Meeting> meetings,
         @Nullable Map<LocalTime, Boolean> localTimeBooleanMap,

@@ -38,6 +38,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private LocalTime time = LocalTime.now();
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +92,10 @@ public class AddMeetingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Pop a clock to select hour and minute and create an LocalTime object
+     * @param view Add meeting view
+     */
     public void popTimePicker (View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, hourOfDay, minute) -> {
             AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);

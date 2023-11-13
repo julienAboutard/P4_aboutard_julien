@@ -17,6 +17,11 @@ import java.util.ArrayList;
 
 public class SpinnerAdapter extends ArrayAdapter<SpinnerItem> {
 
+    /**
+     * Create a spinner to let the user choose the room he wants
+     * @param context Add activity
+     * @param spinnerItemArrayList List of Room for the spinner
+     */
     public SpinnerAdapter(@NonNull Context context, ArrayList<SpinnerItem> spinnerItemArrayList) {
         super(context, 0, spinnerItemArrayList);
     }
