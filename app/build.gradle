@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace "com.example.maru"
-    compileSdkVersion 34
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.maru"
@@ -42,8 +42,9 @@ dependencies {
     implementation "com.google.android.material:material:1.10.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.github.bumptech.glide:glide:4.16.0"
+    implementation fileTree(dir: 'C:\\Users\\RedSky\\AppData\\Local\\Android\\Sdk\\platforms\\android-34-ext8', include: ['*.aar', '*.jar'], exclude: [])
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
