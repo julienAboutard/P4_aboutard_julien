@@ -1,18 +1,14 @@
 package com.example.maru.meetingadd;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.maru.LiveDataTestUtils;
+
 import com.example.maru.data.Meeting;
 import com.example.maru.data.MeetingRepository;
 import com.example.maru.data.Room;
-import com.example.maru.meetings.MeetingsViewState;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,8 +33,6 @@ public class AddMeetingViewModelTest {
     private AddMeetingViewModel viewModel;
     private final LocalTime time = LocalTime.now();
     private final Room room = Room.LUCINA;
-    private final String topic = "Test 1";
-    private final String mailList = "test@test.com";
 
     @Before
     public void setUp() {
@@ -54,6 +48,8 @@ public class AddMeetingViewModelTest {
     public void assertAddButtonClicked() {
         viewModel.onRoomSelected(room);
         viewModel.onSelectedTime(time);
+        String topic = "Test 1";
+        String mailList = "test@test.com";
         viewModel.onAddButtonClicked(topic, mailList);
 
         verify(meetingRepository).addMeeting(room, time, topic, mailList);

@@ -208,7 +208,7 @@ public class MeetingsActivityTest {
             new RecyclerViewItemAssertion(
                 positionOnRecyclerView,
                 R.id.meeting_item_topic_time_room,
-                withText(topic + " - " + time.toString() + " - " + meetingsTest.getString(room.getName()))
+                withText(topic + " - " + time + " - " + meetingsTest.getString(room.getName()))
             )
         );
         onView(withId(R.id.meeting_rv)).check(

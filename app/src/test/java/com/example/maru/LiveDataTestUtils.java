@@ -1,7 +1,5 @@
 package com.example.maru;
 
-import static org.junit.Assert.fail;
-
 import androidx.lifecycle.LiveData;
 
 public class LiveDataTestUtils {

@@ -127,11 +127,11 @@ public class MeetingRepositoryTest {
     }
 
     private LocalTime getTime() {
-        return LocalTime.of(18,00);
+        return LocalTime.of(18, 0);
     }
 
     private String getMailList() {
-        String mailList = "";
+        String mailList;
         mailList = "test@mail.com";
         return mailList;
     }
